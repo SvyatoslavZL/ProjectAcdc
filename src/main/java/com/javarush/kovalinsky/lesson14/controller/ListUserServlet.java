@@ -1,7 +1,7 @@
-package com.javarush.khmelov.lesson14.controller;
+package com.javarush.kovalinsky.lesson14.controller;
 
-import com.javarush.khmelov.lesson14.entity.User;
-import com.javarush.khmelov.lesson14.service.UserService;
+import com.javarush.kovalinsky.lesson14.entity.User;
+import com.javarush.kovalinsky.lesson14.service.UserService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
