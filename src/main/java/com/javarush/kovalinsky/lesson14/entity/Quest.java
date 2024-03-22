@@ -5,22 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User implements AbstractEntity {
-
+public class Quest implements AbstractEntity {
     private Long id;
 
-    private String login;
+    private String name;
 
-    private String password;
+    private Long startQuestionId = 0L;
 
-    private Role role;
-
-    public String getImage() { //TODO move to DTO
-        return "image-" + id;
-    }
-
+    public final List<Question> questions = new ArrayList<>();
 }

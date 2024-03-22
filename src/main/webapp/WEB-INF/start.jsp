@@ -1,64 +1,47 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@include file="head.jsp" %>
+<%@ include file="head.jsp" %>
+<!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Пролог и знакомство</title>
 </head>
 
 <body>
+<div class="container">
+    <form class="form-horizontal" action="game" method="post">
+        <%--        <form class="form-horizontal">--%>
+        <fieldset>
+            <h1>Добро пожаловать!</h1>
 
-<%--<h1><%= "Hello Space!"%>--%>
-<%--</h1>--%>
-<%--<br/>--%>
-<%--<a href="index-servlet">Index Servlet</a>--%>
+            <p>${sessionScope.spaceQuestStart}</p>
 
-<form class="form-horizontal">
-    <fieldset>
-
-        <!-- Form Name -->
-        <legend>Квест</legend>
-
-        <!-- Textarea -->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="prologue">Пролог</label>
-            <div class="col-md-4">
-                <textarea class="form-control" id="prologue" name="prologue">текст пролога</textarea>
+            <!-- Name input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="userName">Представьтесь</label>
+                <div class="col-md-4">
+                    <input id="userName" name="userName" type="text"
+                           placeholder="введите своё имя"
+                           class="form-control input-md"
+                           required=""
+                           value="Ratiost">
+                </div>
             </div>
-        </div>
+            <br/>
 
-        <!-- Textarea -->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="welcome">Знакомство с экипажем</label>
-            <div class="col-md-4">
-                <textarea class="form-control" id="welcome" name="welcome">знакомство</textarea>
+            <!-- Button -->
+            <%--            <a href="game">Представиться</a>--%>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="submit"></label>
+                <div class="col-md-4">
+                    <button id="submit" name="submitButton" class="btn btn-primary">Представиться</button>
+                </div>
             </div>
-        </div>
 
-        <!-- Name input-->
-        <div class="form-group">
-            <label class="col-md-4 control-label" for="name">Представьтесь</label>
-            <div class="col-md-4">
-                <input id="name"
-                       name="name"
-                       type="text"
-                       placeholder="имя"
-                       class="form-control input-md"
-                       required="">
-                <span class="help-block">введите своё имя</span>
-            </div>
-        </div>
-
-        <!-- Button -->
-        <div class="form-group">
-            <div class="col-md-4">
-                <form action="game" method="get">
-                    <button type="submit">Перейти на сервлет</button>
-                </form>
-<%--                <button id="introButton" name="introButton" class="btn btn-primary" href="game">Представиться</button>--%>
-            </div>
-        </div>
-    </fieldset>
-</form>
+        </fieldset>
+    </form>
+</div>
 
 </body>
 </html>
