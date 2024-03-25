@@ -19,8 +19,4 @@ public class User {
 
     private Role role;
 
-    public String getImage() { //TODO move to DTO
-        return "image-" + id;
-    }
-
 }
