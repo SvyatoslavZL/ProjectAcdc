@@ -22,7 +22,18 @@ public class StartServlet extends HttpServlet {
         HttpSession session = req.getSession();
         session.setAttribute("spaceQuest", spaceQuest);
         session.setAttribute("spaceQuestStart", spaceQuestStart);
+        session.setAttribute("nextQuestionId", spaceQuest.getStartQuestionId());
 
         req.getRequestDispatcher("WEB-INF/start.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession();
+        String userName = req.getParameter("userName");
+        session.setAttribute("userName", userName);
+        session.setAttribute("showRestartButton", false);
+
+        resp.sendRedirect("game");
     }
 }

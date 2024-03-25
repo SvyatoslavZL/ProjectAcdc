@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Answer implements AbstractEntity {
-    private Long id;
+    private int id;
 
-    private Long questionId;
+    private int questionId;
 
     private String text;
 
-    private Long nextQuestionId;
+    private int nextQuestionId;
 }

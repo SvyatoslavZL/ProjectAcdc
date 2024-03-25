@@ -2,8 +2,8 @@ package com.javarush.kovalinsky.lesson14.entity;
 
 public interface AbstractEntity {
 
-    Long getId();
+    int getId();
 
-    void setId(Long id);
+    void setId(int id);
 
 }
