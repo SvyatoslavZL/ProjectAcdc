@@ -13,7 +13,7 @@
     <form class="form-horizontal" action="start" method="post">
         <fieldset>
             <h1>Добро пожаловать!</h1>
-            <p>${sessionScope.spaceQuestStart}</p>
+            <p>${requestScope.startMessage}</p>
             <div class="form-group">
                 <label class="col-md-4 control-label" for="userName">Представьтесь</label>
                 <div class="col-md-4">

@@ -12,7 +12,7 @@
     <form class="form-horizontal" action="game" method="post">
 
         <fieldset>
-            <legend>${sessionScope.questionText}</legend>
+            <legend>${requestScope.questionText}</legend>
 
             <div class="form-group">
                 <div class="col-md-4">

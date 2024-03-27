@@ -1,13 +1,11 @@
 package com.javarush.kovalinsky.lesson14.repository;
 
-import com.javarush.kovalinsky.lesson14.entity.User;
-
 import java.util.Collection;
 import java.util.Optional;
 
 public interface Repository<T> {
 
-    Collection<User> getAll();
+    Collection<T> getAll();
 
     Optional<T> get(long id);
 

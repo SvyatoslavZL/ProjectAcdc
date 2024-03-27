@@ -1,7 +1,6 @@
 package com.javarush.kovalinsky.lesson14.controller;
 
 import com.javarush.kovalinsky.lesson14.entity.Answer;
-import com.javarush.kovalinsky.lesson14.entity.Quest;
 import com.javarush.kovalinsky.lesson14.entity.Question;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -19,15 +18,16 @@ public class GameServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+
         int questionId = (int) session.getAttribute("nextQuestionId");
-        if (questionId == 3 || questionId < 0) {
+        if (questionId == 4 || questionId < 0) {
             session.setAttribute("showRestartButton", true);
         }
 
-        Quest spaceQuest = (Quest) session.getAttribute("spaceQuest");
-        for (Question question : spaceQuest.getQuestions()) {
-            if (question.getId() == questionId) {
-                session.setAttribute("questionText", question.getText());
+        List<Question> questQuestions = (List<Question>) session.getAttribute("questQuestions");
+        for (Question question : questQuestions) {
+            if (question.getId().intValue() == questionId) {
+                req.setAttribute("questionText", question.getText());
                 session.setAttribute("answers", question.getAnswers());
             }
         }
@@ -46,14 +46,15 @@ public class GameServlet extends HttpServlet {
 
         int option = Integer.parseInt(req.getParameter("option"));
         Answer userAnswer = null;
-        for (Answer answer : (List<Answer>) session.getAttribute("answers")) {
-            if (answer.getId() == option) {
+        List<Answer> answers = (List<Answer>) session.getAttribute("answers");
+        for (Answer answer : answers) {
+            if (answer.getId().intValue() == option) {
                 userAnswer = answer;
             }
         }
 
         if (userAnswer != null) {
-            session.setAttribute("nextQuestionId", userAnswer.getNextQuestionId());
+            session.setAttribute("nextQuestionId", userAnswer.getNextQuestionId().intValue());
         } else {
             throw new ServletException("User hasn't chosen the answer");
         }

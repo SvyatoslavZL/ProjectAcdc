@@ -13,8 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Question implements AbstractEntity {
-    public final List<Answer> answers = new ArrayList<>();
-    private int id;
-    private int questId;
+
+    private Long id;
+
     private String text;
+
+    public List<Answer> answers = new ArrayList<>();
+
 }

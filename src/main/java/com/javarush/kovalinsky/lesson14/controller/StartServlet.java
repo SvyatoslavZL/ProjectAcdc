@@ -1,7 +1,8 @@
 package com.javarush.kovalinsky.lesson14.controller;
 
-import com.javarush.kovalinsky.lesson14.entity.Quest;
-import com.javarush.kovalinsky.lesson14.service.QuestService;
+import com.javarush.kovalinsky.lesson14.entity.SpaceQuest;
+import com.javarush.kovalinsky.lesson14.repository.AnswerRepository;
+import com.javarush.kovalinsky.lesson14.repository.QuestionRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,12 +17,12 @@ public class StartServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String spaceQuestStart = QuestService.SPACE_QUEST_START;
-        Quest spaceQuest = QuestService.initAndGetSpaceQuest();
+        QuestionRepository questionRepository = new QuestionRepository(new AnswerRepository());
+        SpaceQuest spaceQuest =  new SpaceQuest(questionRepository);
 
+        req.setAttribute("startMessage", spaceQuest.getSTART_MESSAGE());
         HttpSession session = req.getSession();
-        session.setAttribute("spaceQuest", spaceQuest);
-        session.setAttribute("spaceQuestStart", spaceQuestStart);
+        session.setAttribute("questQuestions", spaceQuest.questions);
         session.setAttribute("nextQuestionId", spaceQuest.getStartQuestionId());
 
         req.getRequestDispatcher("WEB-INF/start.jsp").forward(req, resp);
