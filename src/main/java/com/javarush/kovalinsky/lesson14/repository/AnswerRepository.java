@@ -2,12 +2,13 @@ package com.javarush.kovalinsky.lesson14.repository;
 
 import com.javarush.kovalinsky.lesson14.entity.Answer;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AnswerRepository implements Repository<Answer> {
 
-    public static final AtomicLong id = new AtomicLong(System.currentTimeMillis());
     private final Map<Long, Answer> map = new HashMap<>();
 
     public AnswerRepository() {
@@ -32,26 +33,5 @@ public class AnswerRepository implements Repository<Answer> {
             }
         }
         return resultAnswers;
-    }
-
-    @Override
-    public Optional<Answer> get(long id) {
-        return Optional.ofNullable(map.get(id));
-    }
-
-    @Override
-    public void create(Answer entity) {
-        entity.setId(id.incrementAndGet());
-        update(entity);
-    }
-
-    @Override
-    public void update(Answer entity) {
-        map.put(entity.getId(), entity);
-    }
-
-    @Override
-    public void delete(Answer entity) {
-        map.remove(entity.getId());
     }
 }

@@ -4,13 +4,10 @@ import com.javarush.kovalinsky.lesson14.entity.Answer;
 import com.javarush.kovalinsky.lesson14.entity.Question;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class QuestionRepository implements Repository<Question> {
 
-    public static final AtomicLong id = new AtomicLong(System.currentTimeMillis());
     private final Map<Long, Question> map = new HashMap<>();
-
 
     public QuestionRepository(AnswerRepository answerRepository) {
         map.put(1L, new Question(1L, "Ты потерял память. Принять вызов НЛО?", Collections.emptyList()));
@@ -29,26 +26,5 @@ public class QuestionRepository implements Repository<Question> {
     @Override
     public Collection<Question> getAll() {
         return map.values();
-    }
-
-    @Override
-    public Optional<Question> get(long id) {
-        return Optional.ofNullable(map.get(id));
-    }
-
-    @Override
-    public void create(Question entity) {
-        entity.setId(id.incrementAndGet());
-        update(entity);
-    }
-
-    @Override
-    public void update(Question entity) {
-        map.put(entity.getId(), entity);
-    }
-
-    @Override
-    public void delete(Question entity) {
-        map.remove(entity.getId());
     }
 }

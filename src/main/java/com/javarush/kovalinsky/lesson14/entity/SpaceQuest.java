@@ -28,7 +28,9 @@ public class SpaceQuest {
             </legend>
             <br/>
             """;
+
     public List<Question> questions;
+
     private int startQuestionId = 1;
 
     public SpaceQuest(QuestionRepository questionRepository) {

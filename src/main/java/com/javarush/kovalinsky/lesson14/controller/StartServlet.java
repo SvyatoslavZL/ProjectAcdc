@@ -18,7 +18,7 @@ public class StartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         QuestionRepository questionRepository = new QuestionRepository(new AnswerRepository());
-        SpaceQuest spaceQuest =  new SpaceQuest(questionRepository);
+        SpaceQuest spaceQuest = new SpaceQuest(questionRepository);
 
         req.setAttribute("startMessage", spaceQuest.getSTART_MESSAGE());
         HttpSession session = req.getSession();
