@@ -40,19 +40,29 @@ public class FrontController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uriCommand = RequestHelper.getCommand(req);
-        String cmdName = uriCommand.equals("/")
-                ? "home"
-                : uriCommand.substring(1);
+        String cmdName = fixRootCase(uriCommand);
         Command command = httpResolver.resolve(cmdName);
         if (req.getMethod().equalsIgnoreCase("get")) {
             String view = command.doGet(req);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher(view);
-            requestDispatcher.forward(req, resp);
+            req.getRequestDispatcher(view).forward(req, resp);
         } else if (req.getMethod().equalsIgnoreCase("post")) {
             String redirect = command.doPost(req);
+            redirect = fixAbsoluteAddressing(redirect);
             resp.sendRedirect(redirect);
         } else {
             throw new UnsupportedOperationException(req.getMethod());
         }
+    }
+
+    private static String fixRootCase(String uriCommand) {
+        return uriCommand.equals("/")
+                ? "home"
+                : uriCommand.substring(1);
+    }
+
+    private static String fixAbsoluteAddressing(String redirect) {
+        return redirect.startsWith("/")
+                ? redirect.substring(1)
+                : redirect;
     }
 }

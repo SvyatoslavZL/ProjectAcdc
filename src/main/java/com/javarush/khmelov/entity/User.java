@@ -16,6 +16,7 @@ public class User implements AbstractEntity {
 
     private final Collection<Quest> quests = new ArrayList<>();
     private final Collection<Game> games = new ArrayList<>();
+
     private Long id;
     private String login;
     private String password;

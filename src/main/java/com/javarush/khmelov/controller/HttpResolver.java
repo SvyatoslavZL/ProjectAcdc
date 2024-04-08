@@ -34,7 +34,7 @@ public class HttpResolver {
         if (commandMap.get(name) == null) {
             String simpleName = convertSnakeStyleToCamelCase(name);
             String className = "com.javarush.khmelov.cmd." + simpleName;
-            Class<?> aClass = Class.forName(className);
+            var aClass = Class.forName(className);
             Command command = (Command) Winter.find(aClass);
             commandMap.put(name, command);
         }

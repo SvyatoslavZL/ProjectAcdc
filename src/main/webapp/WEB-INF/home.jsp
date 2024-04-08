@@ -26,3 +26,11 @@
 </div>
 <%@include file="parts/footer.jsp" %>
 
+<select name="questNames">
+    <c:forEach items="${questNames}" var="questName">
+        <option value="${questName}">${questName}</option>
+    </c:forEach>
+</select>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
