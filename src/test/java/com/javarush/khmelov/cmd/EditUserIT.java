@@ -1,7 +1,7 @@
 package com.javarush.khmelov.cmd;
 
 import com.javarush.khmelov.BaseIT;
-import com.javarush.khmelov.config.Winter;
+import com.javarush.khmelov.config.NanoSpring;
 import com.javarush.khmelov.entity.Role;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.service.UserService;
@@ -15,8 +15,8 @@ import static org.mockito.Mockito.*;
 class EditUserIT extends BaseIT {
 
 
-    private final EditUser editUser = Winter.find(EditUser.class);
-    private final UserService userService = Winter.find(UserService.class);
+    private final EditUser editUser = NanoSpring.find(EditUser.class);
+    private final UserService userService = NanoSpring.find(UserService.class);
 
     @Test
     void whenOpenPage_thenCommandReturnJspPage() {

@@ -1,6 +1,6 @@
 package com.javarush.khmelov.controller;
 
-import com.javarush.khmelov.config.Winter;
+import com.javarush.khmelov.config.NanoSpring;
 import com.javarush.khmelov.service.ImageService;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,7 +14,7 @@ import java.nio.file.Path;
 @WebServlet(value = "/images/*", name = "ImageServlet")
 public class ImageServlet extends HttpServlet {
 
-    private final ImageService imageService = Winter.find(ImageService.class);
+    private final ImageService imageService = NanoSpring.find(ImageService.class);
 
     @Override
     @SneakyThrows

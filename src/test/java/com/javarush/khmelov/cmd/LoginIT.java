@@ -1,7 +1,7 @@
 package com.javarush.khmelov.cmd;
 
 import com.javarush.khmelov.BaseIT;
-import com.javarush.khmelov.config.Winter;
+import com.javarush.khmelov.config.NanoSpring;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.util.Go;
 import com.javarush.khmelov.util.Key;
@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 
 class LoginIT extends BaseIT {
 
-    private final Login login = Winter.find(Login.class);
+    private final Login login = NanoSpring.find(Login.class);
 
     @Test
     void whenAdminLogin_thenReturnProfile() {

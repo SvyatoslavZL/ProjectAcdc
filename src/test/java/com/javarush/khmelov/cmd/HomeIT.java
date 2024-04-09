@@ -1,7 +1,7 @@
 package com.javarush.khmelov.cmd;
 
 import com.javarush.khmelov.BaseIT;
-import com.javarush.khmelov.config.Winter;
+import com.javarush.khmelov.config.NanoSpring;
 import com.javarush.khmelov.util.Key;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class HomeIT extends BaseIT {
 
     @Test
     void whenOpenPage_thenCommandReturnJspPage() {
-        Home home = Winter.find(Home.class);
+        Home home = NanoSpring.find(Home.class);
         String jsp = home.doGet(request);
 
         assertEquals("WEB-INF/home.jsp", jsp);

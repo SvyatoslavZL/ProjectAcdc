@@ -10,11 +10,11 @@ import java.util.Optional;
 @AllArgsConstructor
 public class GameService {
 
-    private final UserRepository userRepository;
-    private final GameRepository gameRepository;
+    private final Repository<User> userRepository;
+    private final BaseRepository<Game> gameRepository;
     private final QuestRepository questRepository;
-    private final QuestionRepository questionRepository;
-    private final AnswerRepository answerRepository;
+    private final Repository<Question> questionRepository;
+    private final Repository<Answer> answerRepository;
 
     public Optional<Game> getGame(Long questId, Long userId) {
         Game gamePattern = Game.builder().questId(questId).build();

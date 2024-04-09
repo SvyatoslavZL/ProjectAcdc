@@ -1,7 +1,7 @@
 package com.javarush.khmelov.cmd;
 
 import com.javarush.khmelov.BaseIT;
-import com.javarush.khmelov.config.Winter;
+import com.javarush.khmelov.config.NanoSpring;
 import com.javarush.khmelov.util.Key;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ import static org.mockito.Mockito.*;
 
 class ListUserIT extends BaseIT {
 
-    final ListUser listUser = Winter.find(ListUser.class);
+    final ListUser listUser = NanoSpring.find(ListUser.class);
 
     @Test
     void whenGetListUsers_thenReturnJspPage() {

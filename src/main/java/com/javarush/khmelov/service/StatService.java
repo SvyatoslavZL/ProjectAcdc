@@ -4,8 +4,7 @@ import com.javarush.khmelov.entity.Game;
 import com.javarush.khmelov.entity.GameState;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.entity.UserStatistics;
-import com.javarush.khmelov.repository.GameRepository;
-import com.javarush.khmelov.repository.UserRepository;
+import com.javarush.khmelov.repository.Repository;
 import lombok.AllArgsConstructor;
 
 import java.util.Collection;
@@ -14,8 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class StatService {
 
-    private final UserRepository userRepository;
-    private final GameRepository gameRepository;
+    private final Repository<User> userRepository;
+    private final Repository<Game> gameRepository;
 
     public Collection<UserStatistics> getUserStatistics() {
         return userRepository.getAll()

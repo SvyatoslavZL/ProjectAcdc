@@ -2,11 +2,11 @@ package com.javarush.khmelov.controller;
 
 import com.javarush.khmelov.cmd.Command;
 import com.javarush.khmelov.config.Config;
-import com.javarush.khmelov.config.Winter;
+import com.javarush.khmelov.config.HttpResolver;
+import com.javarush.khmelov.config.NanoSpring;
 import com.javarush.khmelov.entity.Role;
 import com.javarush.khmelov.util.Go;
 import com.javarush.khmelov.util.RequestHelper;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -32,8 +32,8 @@ public class FrontController extends HttpServlet {
 
     @Override
     public void init(ServletConfig config) {
-        httpResolver = Winter.find(HttpResolver.class);
-        Winter.find(Config.class).fillStartData();
+        httpResolver = NanoSpring.find(HttpResolver.class);
+        NanoSpring.find(Config.class).fillStartData();
         config.getServletContext().setAttribute("roles", Role.values());
     }
 

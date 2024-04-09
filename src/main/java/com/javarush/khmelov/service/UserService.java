@@ -1,6 +1,7 @@
 package com.javarush.khmelov.service;
 
 import com.javarush.khmelov.entity.User;
+import com.javarush.khmelov.repository.Repository;
 import com.javarush.khmelov.repository.UserRepository;
 
 import java.util.Collection;
@@ -8,7 +9,7 @@ import java.util.Optional;
 
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final Repository<User> userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
