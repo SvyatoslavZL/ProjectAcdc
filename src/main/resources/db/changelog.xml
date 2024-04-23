@@ -5,5 +5,12 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-    <include file="db/2024/04/23-20-52-45-add-role.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/04/23-01-role.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/04/23-02-users.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/04/23-03-users-data.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/04/23-04-game-state.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/04/23-05-quest.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/04/23-06-question.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/04/23-07-answer.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/04/23-08-game.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>
