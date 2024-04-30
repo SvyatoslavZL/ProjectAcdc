@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="26-10-08-answer" author="skovalinsky">
+        <createTable tableName="answer">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="answer_pkey"/>
+            </column>
+            <column name="text" type="VARCHAR(256)"/>
+            <column name="next_question_id" type="BIGINT"/>
+            <column name="question_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="26-10-11-fk_answer_question" author="skovalinsky">
+        <addForeignKeyConstraint baseTableName="answer"
+                                 baseColumnNames="question_id"
+                                 constraintName="fk_answer_question"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedTableName="question"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

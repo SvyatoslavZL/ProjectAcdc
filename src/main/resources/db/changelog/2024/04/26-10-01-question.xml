@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="26-10-01-question" author="skovalinsky">
+        <createTable tableName="question">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="question_pkey"/>
+            </column>
+            <column name="text" type="VARCHAR(256)"/>
+            <column name="quest_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="game_state" type="VARCHAR(64)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="26-10-05-question-fk_game_state" author="skovalinsky">
+        <addForeignKeyConstraint baseTableName="question"
+                                 baseColumnNames="game_state"
+                                 constraintName="fk_question_game_state"
+                                 onDelete="NO ACTION"
+                                 onUpdate="NO ACTION"
+                                 referencedTableName="game_state"
+                                 referencedColumnNames="value"/>
+    </changeSet>
+
+    <changeSet id="26-10-06-question-fk_quest" author="skovalinsky">
+        <addForeignKeyConstraint baseTableName="question"
+                                 baseColumnNames="quest_id"
+                                 constraintName="fk_question_quest"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedTableName="quest"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <include file="/db/changelog/2024/04/25-16-49-role.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/04/26-09-27-users.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/04/26-09-43-users-data.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/04/26-09-49-game-state.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/04/26-09-57-quest.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/04/26-10-01-question.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/04/26-10-08-answer.xml" relativeToChangelogFile="false"/>
+    <include file="/db/changelog/2024/04/26-10-12-game.xml" relativeToChangelogFile="false"/>
+</databaseChangeLog>
