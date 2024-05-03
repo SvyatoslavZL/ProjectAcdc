@@ -9,10 +9,11 @@ public class Cnn {
     public static final String DATABASE_URL_KEY = "database.url";
     public static final String DATABASE_USER_KEY = "database.user";
     public static final String DATABASE_PASSWORD_KEY = "database.password";
+    public static final String DATABASE_DRIVER_KEY = "database.driver";
 
     static {
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(ConfigUtil.getValue(DATABASE_DRIVER_KEY));
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
