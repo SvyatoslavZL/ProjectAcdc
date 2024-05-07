@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,6 +18,21 @@ class UserDbDaoTest extends BaseIT {
 
     private final SessionCreator sessionCreator = new SessionCreator();
     UserDbDao userDao = new UserDbDao(sessionCreator);
+
+    @Test
+    @DisplayName("When find all users result contains ADMIN")
+    void getAll() {
+        userDao.getAll().forEach(System.out::println);
+
+    }
+
+    @Test
+    void find() {
+        User findPattern = User.builder().role(Role.ADMIN).build();
+        Stream<User> userStream = userDao.find(findPattern);
+        userStream.forEach(System.out::println);
+
+    }
 
     @Test
     @DisplayName("When find by id then get user id=1 role=ADMIN")

@@ -1,5 +1,6 @@
 package com.javarush.lesson09;
 
+import com.javarush.khmelov.entity.Quest;
 import com.javarush.khmelov.entity.User;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
@@ -24,6 +25,7 @@ public class SessionCreator implements Closeable {
      // configuration.addProperties(properties);               //3.3 application.properties
      // configuration.add????Resource()                        //and 100500 other ways
         configuration.addAnnotatedClass(User.class);
+        configuration.addAnnotatedClass(Quest.class);
         sessionFactory = configuration.buildSessionFactory();
     }
 
