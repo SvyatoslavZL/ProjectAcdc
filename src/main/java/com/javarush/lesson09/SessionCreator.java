@@ -17,12 +17,13 @@ public class SessionCreator implements Closeable {
 
     @SneakyThrows
     public SessionCreator() {
-        Configuration configuration = new Configuration();
-//        configuration.configure();
+        Configuration configuration = new Configuration();     //1. hibernate.properties
+     // configuration.configure();                             //2. hibernate.cfg.xml
+     // Properties properties = configuration.getProperties(); //3.1 prepare for read
+     // properties.load(SessionFactory.class.getResourceAsStream("/application.properties")); //3.2 your
+     // configuration.addProperties(properties);               //3.3 application.properties
+     // configuration.add????Resource()                        //and 100500 other ways
         configuration.addAnnotatedClass(User.class);
-//        Properties properties = configuration.getProperties();
-//        properties.load(SessionFactory.class.getResourceAsStream("/application.properties"));
-//        configuration.addProperties(properties);
         sessionFactory = configuration.buildSessionFactory();
     }
 
