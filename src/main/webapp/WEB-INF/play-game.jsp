@@ -1,5 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="parts/header.jsp" %>
+<c:import url="parts/header.jsp"/>
 <html>
 <body>
 <div class="container">
@@ -8,9 +9,14 @@
     <jsp:useBean id="question" scope="request" type="com.javarush.kovalinsky.entity.Question"/>
     <jsp:useBean id="game" scope="request" type="com.javarush.kovalinsky.entity.Game"/>
 
-
     <div class="px-3 py-3 my-3 text-left">
 
+        <div class="form-group text-center">
+            <img src="images/${question.image}"
+                 class="img-fluid"
+                 style="height: 50%; display: block;"
+                 alt="${question.image}">
+        </div>
         <p class="lead mb-2">
 
         <h1>${question.text}</h1>
@@ -48,4 +54,4 @@
 </div>
 </body>
 </html>
-<%@include file="parts/footer.jsp" %>
+<c:import url="parts/footer.jsp"/>

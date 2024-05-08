@@ -4,11 +4,25 @@
 <body>
 <div class="container">
     <form class="form-horizontal" method="post"
-          action="edit-user?id=${requestScope.user.id==null?0:requestScope.user.id}">
+          action="edit-user?id=${requestScope.user.id==null?0:requestScope.user.id}"
+          enctype="multipart/form-data">
         <fieldset>
 
             <!-- Form Name -->
-            <legend>Edit user:</legend>
+            <legend>Edit user</legend>
+
+            <!-- File Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="image">
+                    <img id="previewId" src="images/${requestScope.user.image}" width="150"
+                         alt="${requestScope.user.image}">
+                    Нажмите чтобы изменить
+                </label>
+                <div class="col-md-4">
+                    <input onchange="loadImageFile('image', 'previewId');" id="image" name="image"
+                           style="visibility:hidden;" class="input-file" type="file">
+                </div>
+            </div>
 
             <!-- Text input-->
             <div class="form-group">

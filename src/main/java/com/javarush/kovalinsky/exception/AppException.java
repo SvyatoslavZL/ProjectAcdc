@@ -1,7 +1,7 @@
 package com.javarush.kovalinsky.exception;
 
 @SuppressWarnings("unused")
-public class AppException extends RuntimeException{
+public class AppException extends RuntimeException {
 
     public AppException() {
     }

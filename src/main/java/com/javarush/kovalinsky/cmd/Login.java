@@ -2,6 +2,7 @@ package com.javarush.kovalinsky.cmd;
 
 import com.javarush.kovalinsky.entity.User;
 import com.javarush.kovalinsky.service.UserService;
+import com.javarush.kovalinsky.util.Err;
 import com.javarush.kovalinsky.util.Go;
 import com.javarush.kovalinsky.util.Key;
 import com.javarush.kovalinsky.util.RequestHelper;
@@ -25,9 +26,9 @@ public class Login implements Command {
         Optional<User> user = userService.get(login, password);
         if (user.isPresent()) {
             req.getSession().setAttribute(Key.USER, user.get());
-            return Go.PLAY_GAME; //TODO Go.PROFILE
+            return Go.PROFILE;
         } else {
-            RequestHelper.setError(req, Key.ERROR_INVALID_USER_DATA);
+            RequestHelper.setError(req, Err.INVALID_USER_DATA);
             return Go.LOGIN;
         }
     }

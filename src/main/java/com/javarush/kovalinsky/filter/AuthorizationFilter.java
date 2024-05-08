@@ -2,6 +2,7 @@ package com.javarush.kovalinsky.filter;
 
 import com.javarush.kovalinsky.entity.Role;
 import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.util.Err;
 import com.javarush.kovalinsky.util.Go;
 import com.javarush.kovalinsky.util.Key;
 import com.javarush.kovalinsky.util.RequestHelper;
@@ -19,7 +20,10 @@ import java.util.Optional;
 
 @WebFilter(filterName = "AuthorizationFilter", urlPatterns = {
         Go.INDEX, Go.HOME,
-        Go.SIGNUP, Go.LOGIN, Go.LIST_USER, Go.EDIT_USER, Go.PLAY_GAME
+        Go.SIGNUP, Go.LOGIN, Go.LOGOUT,
+        Go.PROFILE, Go.LIST_USER, Go.EDIT_USER,
+
+        Go.PLAY_GAME
 })
 public class AuthorizationFilter extends HttpFilter {
     private final Map<Role, List<String>> uriMap = Map.of(
@@ -28,11 +32,12 @@ public class AuthorizationFilter extends HttpFilter {
             ),
             Role.USER, List.of(
                     Go.HOME, Go.INDEX, Go.SIGNUP, Go.LOGIN,
-                    Go.EDIT_USER, Go.PLAY_GAME
+                    Go.PROFILE, Go.EDIT_USER, Go.LOGOUT, Go.PLAY_GAME
             ),
             Role.ADMIN, List.of(
                     Go.HOME, Go.INDEX, Go.SIGNUP, Go.LOGIN,
-                    Go.EDIT_USER, Go.PLAY_GAME, Go.LIST_USER
+                    Go.PROFILE, Go.EDIT_USER, Go.LOGOUT, Go.PLAY_GAME,
+                    Go.LIST_USER
             )
     );
 
@@ -46,7 +51,7 @@ public class AuthorizationFilter extends HttpFilter {
         if (uriMap.get(role).contains(cmdUri)) {
             chain.doFilter(req, res);
         } else {
-            RequestHelper.setError(req, Key.ERROR_NO_PERMISSIONS_FOR_OPERATION + Key.ROLE + ": " + role);
+            RequestHelper.setError(req, Err.NO_PERMISSIONS_FOR_OPERATION + Key.ROLE + ": " + role);
             res.sendRedirect(Go.HOME);
         }
     }

@@ -3,11 +3,24 @@
 <html>
 <body>
 <div class="container">
-    <form class="form-horizontal" action="signup" method="post">
+    <form class="form-horizontal" action="signup" method="post" enctype="multipart/form-data">
         <fieldset>
 
             <!-- Form Name -->
             <legend>Create user</legend>
+
+            <!-- File Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="image">
+                    <img id="previewId" src="images/${requestScope.user.image}" width="150"
+                         alt="${requestScope.user.image}">
+                    Нажмите чтобы изменить
+                </label>
+                <div class="col-md-4">
+                    <input onchange="loadImageFile('image', 'previewId');" id="image" name="image"
+                           style="visibility:hidden;" class="input-file" type="file">
+                </div>
+            </div>
 
             <!-- Text input-->
             <div class="form-group">
@@ -51,9 +64,9 @@
 
             <!-- Button -->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="createButton"></label>
+                <label class="col-md-4 control-label" for="create"></label>
                 <div class="col-md-8">
-                        <button id="createButton" name="create" class="btn btn-primary">Sign-up</button>
+                        <button id="create" name="create" class="btn btn-success">Sign-up</button>
                 </div>
             </div>
 

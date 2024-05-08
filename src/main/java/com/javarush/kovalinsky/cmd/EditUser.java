@@ -2,6 +2,7 @@ package com.javarush.kovalinsky.cmd;
 
 import com.javarush.kovalinsky.entity.Role;
 import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.service.ImageService;
 import com.javarush.kovalinsky.service.UserService;
 import com.javarush.kovalinsky.util.Key;
 import com.javarush.kovalinsky.util.RequestHelper;
@@ -13,9 +14,11 @@ import java.util.Optional;
 public class EditUser implements Command {
 
     private final UserService userService;
+    private final ImageService imageService;
 
-    public EditUser(UserService userService) {
+    public EditUser(UserService userService, ImageService imageService) {
         this.userService = userService;
+        this.imageService = imageService;
     }
 
     @Override
@@ -39,11 +42,9 @@ public class EditUser implements Command {
                 .password(req.getParameter(Key.PASSWORD))
                 .role(Role.valueOf(req.getParameter(Key.ROLE)))
                 .build();
-
         user.setId(RequestHelper.getId(req));
         userService.update(user);
-        // TODO uploadImage
-
+        imageService.uploadImage(req, user.getImage());
         return getPage() + "?id=" + user.getId();
     }
 }

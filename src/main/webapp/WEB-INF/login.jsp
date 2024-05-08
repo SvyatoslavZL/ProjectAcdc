@@ -1,5 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ include file="parts/header.jsp" %>
+<c:import url="parts/header.jsp"/>
 <html>
 <body>
 <div class="container">
@@ -11,9 +12,9 @@
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-md-4 control-label" for="login">Login</label>
+                <label class="col-md-4 control-label" for="userLogin">Login</label>
                 <div class="col-md-4">
-                    <input id="login"
+                    <input id="userLogin"
                            name="login"
                            type="text"
                            placeholder="your login"
@@ -37,13 +38,14 @@
                 </div>
             </div>
 
-            <!-- Button (Double) -->
+            <!-- Button -->
             <div class="form-group">
                 <label class="col-md-4 control-label" for="submit"></label>
                 <div class="col-md-4">
                     <button id="submit" name="loginButton" class="btn btn-success">Войти</button>
                 </div>
             </div>
+
         </fieldset>
     </form>
 </div>

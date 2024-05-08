@@ -1,5 +1,6 @@
 package com.javarush.kovalinsky.entity;
 
+import com.javarush.kovalinsky.util.Key;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,7 @@ public class Question implements Identifiable {
     private String text;
     private GameState gameState;
 
-    //TODO image
+    public String getImage() {
+        return Key.QUESTION + "-" + id;
+    }
 }

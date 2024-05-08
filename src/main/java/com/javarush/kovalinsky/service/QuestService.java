@@ -3,7 +3,7 @@ package com.javarush.kovalinsky.service;
 import com.javarush.kovalinsky.entity.*;
 import com.javarush.kovalinsky.exception.AppException;
 import com.javarush.kovalinsky.repository.*;
-import com.javarush.kovalinsky.util.Key;
+import com.javarush.kovalinsky.util.Err;
 
 import java.util.Collection;
 import java.util.Map;
@@ -78,7 +78,7 @@ public class QuestService {
         if (matcher.find()) {
             return Long.parseLong(matcher.group());
         }
-        throw new AppException(Key.ERROR_START_INDEX_NOT_FOUND);
+        throw new AppException(Err.START_INDEX_NOT_FOUND);
     }
 
     private Map<Long, Question> fillDraftMap(String text) {
@@ -116,7 +116,7 @@ public class QuestService {
                 currentQuestion.getAnswers().add(built);
                 yield null;
             }
-            default -> throw new AppException(Key.ERROR_INCORRECT_PARSING);
+            default -> throw new AppException(Err.INCORRECT_PARSING);
         };
         return Optional.ofNullable(currentQuestion);
     }

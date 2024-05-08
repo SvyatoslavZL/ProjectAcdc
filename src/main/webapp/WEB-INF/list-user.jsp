@@ -3,7 +3,9 @@
 <html>
 <body>
 <div class="container">
+
     <c:forEach var="user" items="${requestScope.users}">
+        <img src="images/${user.image}" alt="images/${user.image}" width="100px">
         Edit user <a href="edit-user?id=${user.id}">${user.login}</a> <br> <br>
     </c:forEach>
 

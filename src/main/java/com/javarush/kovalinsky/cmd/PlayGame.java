@@ -5,6 +5,7 @@ import com.javarush.kovalinsky.entity.Question;
 import com.javarush.kovalinsky.entity.User;
 import com.javarush.kovalinsky.service.GameService;
 import com.javarush.kovalinsky.service.QuestionService;
+import com.javarush.kovalinsky.util.Err;
 import com.javarush.kovalinsky.util.Go;
 import com.javarush.kovalinsky.util.Key;
 import com.javarush.kovalinsky.util.RequestHelper;
@@ -27,7 +28,7 @@ public class PlayGame implements Command {
     @Override
     public String doGet(HttpServletRequest req) {
 //        Long questId = Long.parseLong(req.getParameter(Key.QUEST_ID));
-        Long questId = 1L; //test 1 quest TODO change
+        Long questId = 1L; //test 1 quest TODO change test questId (remove this line)
         HttpSession session = req.getSession();
         Optional<User> user = RequestHelper.getUser(req.getSession());
         if (user.isPresent()) {
@@ -37,11 +38,11 @@ public class PlayGame implements Command {
                 showNextQuestion(req, game.get());
                 return getJspPage();
             } else {
-                RequestHelper.setError(req, Key.ERROR_NO_UNFINISHED_GAME);
+                RequestHelper.setError(req, Err.NO_UNFINISHED_GAME);
                 return Go.HOME;
             }
         } else {
-            RequestHelper.setError(req, Key.ERROR_NEED_TO_LOG_IN);
+            RequestHelper.setError(req, Err.NEED_TO_LOG_IN);
             return Go.LOGIN;
         }
     }
@@ -54,12 +55,12 @@ public class PlayGame implements Command {
         Optional<Game> gameOptional = gameService.processOneStep(gameId, answerId);
         if (gameOptional.isPresent()) {
             if (answerId == 0 && req.getParameter("new-game") == null) {
-                RequestHelper.setError(req, Key.ERROR_NEED_TO_SELECT_ANSWER);
+                RequestHelper.setError(req, Err.NEED_TO_SELECT_ANSWER);
             }
             Game game = gameOptional.get();
             return "%s?questId=%d&id=%d".formatted(Go.PLAY_GAME, game.getQuestId(), game.getId());
         } else {
-            RequestHelper.setError(req, Key.ERROR_NO_SUCH_GAME);
+            RequestHelper.setError(req, Err.NO_SUCH_GAME);
             return Go.HOME;
         }
     }

@@ -22,7 +22,7 @@ public class RequestHelper {
         if (matcher.find()) {
             return matcher.group(1);
         } else {
-            throw new AppException(Key.ERROR_INCORRECT_URI + uri);
+            throw new AppException(Err.INCORRECT_URI + uri);
         }
     }
 
@@ -45,6 +45,6 @@ public class RequestHelper {
     }
 
     public static void setError(HttpServletRequest req, String errorMessage) {
-        req.getSession().setAttribute(Key.ERROR_MESSAGE, errorMessage);
+        req.getSession().setAttribute(Err.ERROR_MESSAGE, errorMessage);
     }
 }

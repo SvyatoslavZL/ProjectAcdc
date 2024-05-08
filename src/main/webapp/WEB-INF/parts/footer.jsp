@@ -3,6 +3,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html>
 <body>
+
+<c:if test="${not empty sessionScope.errorMessage}">
+    <div class="container d-flex flex-wrap justify-content-center">
+        <span class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+            <span class="alert alert-warning" role="alert">
+                    ${sessionScope.errorMessage}
+            </span>
+        </span>
+    </div>
+</c:if>
+
 <footer class="py-3 my-4">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
@@ -13,5 +24,21 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous">
+</script>
+<script type="text/javascript">
+    function loadImageFile(inputFileId, imageId) {
+        let fileInput = document.getElementById(inputFileId);
+        fileInput.click();
+        fileInput.onchange = function () {
+            let file = fileInput.files[0];
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let image = document.getElementById(imageId);
+                image.src = e.target.result;
+                document.getElementById('hiddenField').value = file.name;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
 </script>
 </html>

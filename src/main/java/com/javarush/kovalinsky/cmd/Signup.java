@@ -2,6 +2,7 @@ package com.javarush.kovalinsky.cmd;
 
 import com.javarush.kovalinsky.entity.Role;
 import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.service.ImageService;
 import com.javarush.kovalinsky.service.UserService;
 import com.javarush.kovalinsky.util.Go;
 import com.javarush.kovalinsky.util.Key;
@@ -11,9 +12,11 @@ import jakarta.servlet.http.HttpServletRequest;
 public class Signup implements Command {
 
     private final UserService userService;
+    private final ImageService imageService;
 
-    public Signup(UserService userService) {
+    public Signup(UserService userService, ImageService imageService) {
         this.userService = userService;
+        this.imageService = imageService;
     }
 
     @Override
@@ -25,7 +28,7 @@ public class Signup implements Command {
                 .role(Role.valueOf(req.getParameter(Key.ROLE)))
                 .build();
         userService.create(user);
-        // TODO addImage
+        imageService.uploadImage(req, user.getImage());
         return Go.LIST_USER;
     }
 }

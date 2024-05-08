@@ -10,6 +10,7 @@ import com.javarush.kovalinsky.util.Key;
 import com.javarush.kovalinsky.util.RequestHelper;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,9 +18,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+@MultipartConfig(fileSizeThreshold = 1 << 20)
 @WebServlet({
         Go.INDEX, Go.HOME,
-        Go.SIGNUP, Go.LOGIN, Go.LIST_USER, Go.EDIT_USER,
+        Go.SIGNUP, Go.LOGIN, Go.LOGOUT,
+        Go.PROFILE, Go.LIST_USER, Go.EDIT_USER,
+
         Go.PLAY_GAME
 })
 public class FrontController extends HttpServlet {
