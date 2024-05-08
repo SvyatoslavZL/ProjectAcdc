@@ -1,6 +1,7 @@
 package com.javarush.kovalinsky.cmd;
 
 import com.javarush.kovalinsky.service.QuestService;
+import com.javarush.kovalinsky.util.Key;
 import jakarta.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("unused")
@@ -14,7 +15,7 @@ public class Home implements Command {
 
     @Override
     public String doGet(HttpServletRequest req) {
-        req.setAttribute("quests", questService.getAll()); //TODO attrConstant
+        req.setAttribute(Key.QUESTS, questService.getAll());
         return getJspPage();
     }
 }

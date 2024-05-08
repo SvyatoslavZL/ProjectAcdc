@@ -5,6 +5,8 @@ import com.javarush.kovalinsky.entity.Question;
 import com.javarush.kovalinsky.entity.User;
 import com.javarush.kovalinsky.service.GameService;
 import com.javarush.kovalinsky.service.QuestionService;
+import com.javarush.kovalinsky.util.Go;
+import com.javarush.kovalinsky.util.Key;
 import com.javarush.kovalinsky.util.RequestHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -24,8 +26,8 @@ public class PlayGame implements Command {
 
     @Override
     public String doGet(HttpServletRequest req) {
-//        Long questId = Long.parseLong(req.getParameter("questId"));
-        Long questId = 1L; //test TODO change
+//        Long questId = Long.parseLong(req.getParameter(Key.QUEST_ID));
+        Long questId = 1L; //test 1 quest TODO change
         HttpSession session = req.getSession();
         Optional<User> user = RequestHelper.getUser(req.getSession());
         if (user.isPresent()) {
@@ -35,12 +37,12 @@ public class PlayGame implements Command {
                 showNextQuestion(req, game.get());
                 return getJspPage();
             } else {
-                session.setAttribute("errorMessage", "Нет незавершённой игры");
-                return "/home";
+                RequestHelper.setError(req, Key.ERROR_NO_UNFINISHED_GAME);
+                return Go.HOME;
             }
         } else {
-            session.setAttribute("errorMessage", "Сначала нужно войти в аккаунт");
-            return "/login";
+            RequestHelper.setError(req, Key.ERROR_NEED_TO_LOG_IN);
+            return Go.LOGIN;
         }
     }
 
@@ -48,23 +50,23 @@ public class PlayGame implements Command {
     public String doPost(HttpServletRequest req) {
         HttpSession session = req.getSession();
         Long gameId = RequestHelper.getId(req);
-        Long answerId = RequestHelper.getId(req, "answer");
+        Long answerId = RequestHelper.getId(req, Key.ANSWER);
         Optional<Game> gameOptional = gameService.processOneStep(gameId, answerId);
         if (gameOptional.isPresent()) {
             if (answerId == 0 && req.getParameter("new-game") == null) {
-                session.setAttribute("errorMessage", "Необходимо выбрать ответ");
+                RequestHelper.setError(req, Key.ERROR_NEED_TO_SELECT_ANSWER);
             }
             Game game = gameOptional.get();
-            return "%s?questId=%d&id=%d".formatted("/play-game", game.getQuestId(), game.getId());
+            return "%s?questId=%d&id=%d".formatted(Go.PLAY_GAME, game.getQuestId(), game.getId());
         } else {
-            session.setAttribute("errorMessage", "Такой игры нет");
-            return "/home";
+            RequestHelper.setError(req, Key.ERROR_NO_SUCH_GAME);
+            return Go.HOME;
         }
     }
 
     private void showNextQuestion(HttpServletRequest req, Game game) {
-        req.setAttribute("game", game);
+        req.setAttribute(Key.GAME, game);
         Optional<Question> question = questionService.get(game.getCurrentQuestionId());
-        req.setAttribute("question", question.orElseThrow());
+        req.setAttribute(Key.QUESTION, question.orElseThrow());
     }
 }

@@ -3,6 +3,8 @@ package com.javarush.kovalinsky.cmd;
 import com.javarush.kovalinsky.entity.Role;
 import com.javarush.kovalinsky.entity.User;
 import com.javarush.kovalinsky.service.UserService;
+import com.javarush.kovalinsky.util.Key;
+import com.javarush.kovalinsky.util.RequestHelper;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
@@ -18,13 +20,13 @@ public class EditUser implements Command {
 
     @Override
     public String doGet(HttpServletRequest req) {
-        String stringId = req.getParameter("id");
+        String stringId = req.getParameter(Key.ID);
         if (stringId != null) {
             long id = Long.parseLong(stringId);
             Optional<User> optionalUser = userService.get(id);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                req.setAttribute("user", user);
+                req.setAttribute(Key.USER, user);
             }
         }
         return getJspPage();
@@ -33,13 +35,12 @@ public class EditUser implements Command {
     @Override
     public String doPost(HttpServletRequest req) {
         User user = User.builder()
-                .id(Long.parseLong(req.getParameter("id")))
-                .login(req.getParameter("login"))
-                .password(req.getParameter("password"))
-                .role(Role.valueOf(req.getParameter("role")))
+                .login(req.getParameter(Key.LOGIN))
+                .password(req.getParameter(Key.PASSWORD))
+                .role(Role.valueOf(req.getParameter(Key.ROLE)))
                 .build();
 
-        // TODO setId using RequestHelper instead
+        user.setId(RequestHelper.getId(req));
         userService.update(user);
         // TODO uploadImage
 

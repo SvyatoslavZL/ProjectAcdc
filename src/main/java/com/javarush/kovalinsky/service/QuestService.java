@@ -1,7 +1,9 @@
 package com.javarush.kovalinsky.service;
 
 import com.javarush.kovalinsky.entity.*;
+import com.javarush.kovalinsky.exception.AppException;
 import com.javarush.kovalinsky.repository.*;
+import com.javarush.kovalinsky.util.Key;
 
 import java.util.Collection;
 import java.util.Map;
@@ -71,6 +73,14 @@ public class QuestService {
         return Optional.of(quest);
     }
 
+    private Long findStartQuestionLabel(String text) {
+        Matcher matcher = Pattern.compile(DIGITS).matcher(text);
+        if (matcher.find()) {
+            return Long.parseLong(matcher.group());
+        }
+        throw new AppException(Key.ERROR_START_INDEX_NOT_FOUND);
+    }
+
     private Map<Long, Question> fillDraftMap(String text) {
         Map<Long, Question> map = new TreeMap<>();
         text = "\n" + text;
@@ -106,17 +116,9 @@ public class QuestService {
                 currentQuestion.getAnswers().add(built);
                 yield null;
             }
-            default -> throw new RuntimeException("incorrect parsing"); //TODO AppException
+            default -> throw new AppException(Key.ERROR_INCORRECT_PARSING);
         };
         return Optional.ofNullable(currentQuestion);
-    }
-
-    private Long findStartQuestionLabel(String text) {
-        Matcher matcher = Pattern.compile(DIGITS).matcher(text);
-        if (matcher.find()) {
-            return Long.parseLong(matcher.group());
-        }
-        throw new RuntimeException("start index wasn't found in the text"); //TODO AppException
     }
 
     private void updateLinksAndId(Map<Long, Question> map, Quest quest) {

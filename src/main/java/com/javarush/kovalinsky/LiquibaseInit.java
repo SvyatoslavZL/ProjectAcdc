@@ -4,7 +4,7 @@ import liquibase.Scope;
 import liquibase.command.CommandScope;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
-public class myLiquibaseRunner {
+public class LiquibaseInit {
     public static void main(String[] args) throws Exception {
         System.out.println("Running Liquibase...");
 

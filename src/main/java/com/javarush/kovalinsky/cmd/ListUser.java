@@ -2,6 +2,7 @@ package com.javarush.kovalinsky.cmd;
 
 import com.javarush.kovalinsky.entity.User;
 import com.javarush.kovalinsky.service.UserService;
+import com.javarush.kovalinsky.util.Key;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Collection;
@@ -18,7 +19,7 @@ public class ListUser implements Command {
     @Override
     public String doGet(HttpServletRequest req) {
         Collection<User> users = userService.getAll();
-        req.setAttribute("users", users); //TODO attrConstants (util.Key class)
+        req.setAttribute(Key.USERS, users);
         return getJspPage();
     }
 }
