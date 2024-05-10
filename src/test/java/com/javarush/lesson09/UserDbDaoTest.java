@@ -1,9 +1,9 @@
 package com.javarush.lesson09;
 
 import com.javarush.khmelov.BaseIT;
+import com.javarush.khmelov.config.SessionCreator;
 import com.javarush.khmelov.entity.Role;
 import com.javarush.khmelov.entity.User;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

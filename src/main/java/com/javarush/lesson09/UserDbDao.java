@@ -1,5 +1,6 @@
 package com.javarush.lesson09;
 
+import com.javarush.khmelov.config.SessionCreator;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.exception.AppException;
 import com.javarush.khmelov.repository.Repository;

@@ -1,20 +1,24 @@
 package com.javarush.khmelov.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data
+@Entity
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Answer implements AbstractEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "question_id")
     private Long questionId;
 
     private String text;
 
+    @Column(name = "next_question_id")
     private Long nextQuestionId;
 }

@@ -2,19 +2,21 @@ package com.javarush.khmelov.repository;
 
 import com.javarush.khmelov.entity.Role;
 import com.javarush.khmelov.entity.User;
+import com.javarush.khmelov.config.SessionCreator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class UserRepositoryTest {
 
-    private final UserRepository userRepository = new UserRepository();
+
+    private final UserRepository userRepository = new UserRepository(new SessionCreator());
     private User admin;
 
     @BeforeEach
     void createAdmin() {
         admin = User.builder()
-                .id(1L)
                 .login("testAdmin")
                 .password("testPassword")
                 .role(Role.ADMIN)
@@ -24,7 +26,7 @@ class UserRepositoryTest {
 
     @Test
     void get() {
-        User user = userRepository.get(1L);
+        User user = userRepository.get(admin.getId());
         Assertions.assertEquals(admin, user);
     }
 
@@ -40,13 +42,12 @@ class UserRepositoryTest {
     void update() {
         admin.setLogin("newLogin");
         userRepository.update(admin);
-        User user = userRepository.get(1L);
+        User user = userRepository.get(admin.getId());
         Assertions.assertEquals(admin, user);
     }
 
-    @Test
-    void delete() {
+    @AfterEach
+    void tearDown() {
         userRepository.delete(admin);
-        Assertions.assertEquals(0, userRepository.getAll().size());
     }
 }

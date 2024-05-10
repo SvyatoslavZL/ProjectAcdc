@@ -1,22 +1,29 @@
 package com.javarush.khmelov.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data
+@Entity
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Game implements AbstractEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "quest_id")
     private Long questId;
 
+    @Column(name = "users_id")
     private Long userId;
 
+    @Column(name = "current_question_id")
     private Long currentQuestionId;
 
+    @Column(name = "game_state")
+    @Enumerated(EnumType.STRING)
     private GameState gameState;
 }

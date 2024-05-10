@@ -1,6 +1,6 @@
 package com.javarush.lesson08;
 
-import com.javarush.lesson07.Cnn;
+import com.javarush.khmelov.config.Cnn;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 

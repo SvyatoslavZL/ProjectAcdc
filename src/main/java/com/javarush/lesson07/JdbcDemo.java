@@ -1,5 +1,7 @@
 package com.javarush.lesson07;
 
+import com.javarush.khmelov.config.Cnn;
+
 import java.sql.*;
 
 public class JdbcDemo {

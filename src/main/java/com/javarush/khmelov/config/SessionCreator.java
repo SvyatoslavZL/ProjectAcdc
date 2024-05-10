@@ -1,16 +1,15 @@
-package com.javarush.lesson09;
+package com.javarush.khmelov.config;
 
-import com.javarush.khmelov.entity.Quest;
-import com.javarush.khmelov.entity.User;
+import com.javarush.khmelov.entity.*;
+import com.javarush.lesson09.UserDbDao;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy;
 import org.hibernate.cfg.Configuration;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Properties;
 
 public class SessionCreator implements Closeable {
 
@@ -26,6 +25,9 @@ public class SessionCreator implements Closeable {
      // configuration.add????Resource()                        //and 100500 other ways
         configuration.addAnnotatedClass(User.class);
         configuration.addAnnotatedClass(Quest.class);
+        configuration.addAnnotatedClass(Question.class);
+        configuration.addAnnotatedClass(Answer.class);
+        configuration.addAnnotatedClass(Game.class);
         sessionFactory = configuration.buildSessionFactory();
     }
 

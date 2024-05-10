@@ -1,4 +1,4 @@
-package com.javarush.lesson07;
+package com.javarush.khmelov.config;
 
 import java.io.IOException;
 import java.util.Properties;

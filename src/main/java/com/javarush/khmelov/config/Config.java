@@ -1,12 +1,12 @@
 package com.javarush.khmelov.config;
 
-import com.javarush.khmelov.entity.Role;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.service.QuestService;
 import com.javarush.khmelov.service.UserService;
 
 public class Config {
 
+    public static final String FIRST_QUEST_NAME = "Играем в неопознанный летающий объект (обязательный квест)";
     private final UserService userService;
     private final QuestService questService;
 
@@ -16,20 +16,23 @@ public class Config {
     }
 
     public void fillStartData() {
-        if (userService.get(1L).isEmpty()) {
-            User admin = new User(-1L, "Carl", "admin", Role.ADMIN);
-            userService.create(admin);
+        LiquibaseInit.create();
+        User admin = userService.get(1L).orElseThrow();
+        boolean notFoundFirstQuest = questService
+                .getAll()
+                .stream()
+                .filter(q -> q.getName().equals(FIRST_QUEST_NAME))
+                .findFirst()
+                .isEmpty();
+        if (notFoundFirstQuest) {
             addDemoQuests(admin);
-
-            userService.create(new User(-1L, "Alisa", "qwerty", Role.USER));
-            userService.create(new User(-1L, "Bob", "123", Role.GUEST));
         }
     }
 
     private void addDemoQuests(User author) {
         Long authorId = author.getId();
         questService.create(
-                "Играем в неопознанный летающий объект (обязательный квест)",
+                FIRST_QUEST_NAME,
                 """
                         1: Ты потерял память. Принять вызов НЛО?
                         2<  Принять вызов

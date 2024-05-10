@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import java.util.Collection;
 @Builder
 @Entity
 @Table(name = "users")
-@ToString(exclude = {"quests","games"})
+@ToString(exclude = {"quests", "games"})
 public class User implements AbstractEntity {
 
     @Id
@@ -36,4 +37,17 @@ public class User implements AbstractEntity {
 
     @Transient
     private final Collection<Game> games = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 42;
+    }
 }
