@@ -4,19 +4,18 @@ import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.exception.AppException;
 import com.javarush.khmelov.repository.Repository;
 import jakarta.persistence.Transient;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.hibernate.query.criteria.JpaRoot;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
@@ -48,32 +47,25 @@ public class UserDbDao implements Repository<User> {
     @Override
     public Stream<User> find(User pattern) {
         Session session = sessionCreator.getSession();
-        Transaction tx = null;
         try (session) {
-            Class<? extends User> patternClass = pattern.getClass();
-            tx = session.beginTransaction();
-            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
-            Root<User> userRoot = query.from(User.class);
-            Field[] fields = patternClass.getDeclaredFields();
-            List<Predicate> predicates = new ArrayList<>();
-            for (Field field : fields) {
+            var criteriaBuilder = session.getCriteriaBuilder();
+            var criteriaQuery = criteriaBuilder.createQuery(User.class);
+            JpaRoot<User> from = criteriaQuery.from(User.class);
+            var predicates = new ArrayList<Predicate>();
+            for (Field field : pattern.getClass().getDeclaredFields()) {
                 field.trySetAccessible();
                 String name = field.getName();
                 Object value = field.get(pattern);
-                if (value != null && !field.isAnnotationPresent(Transient.class)) {
-                    Predicate predicate = criteriaBuilder.equal(userRoot.get(name), value);
+                if (Objects.nonNull(value)
+                    && !field.isAnnotationPresent(Transient.class)) {
+                    var predicate = criteriaBuilder.equal(from.get(name), value);
                     predicates.add(predicate);
                 }
             }
-            query.select(userRoot)
-                    .where(predicates.toArray(Predicate[]::new));
-            Query<User> userQuery = session.createQuery(query);
-            List<User> list = userQuery.stream().toList();
-            tx.commit();
-            return list.stream();
-        } catch (Exception e) {
-            tx.rollback();
+            criteriaQuery.select(from);
+            criteriaQuery.where(predicates.toArray(Predicate[]::new));
+            return session.createQuery(criteriaQuery).list().stream();
+        } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
