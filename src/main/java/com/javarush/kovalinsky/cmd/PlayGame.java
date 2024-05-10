@@ -10,7 +10,6 @@ import com.javarush.kovalinsky.util.Go;
 import com.javarush.kovalinsky.util.Key;
 import com.javarush.kovalinsky.util.RequestHelper;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.Optional;
 
@@ -27,9 +26,7 @@ public class PlayGame implements Command {
 
     @Override
     public String doGet(HttpServletRequest req) {
-//        Long questId = Long.parseLong(req.getParameter(Key.QUEST_ID));
-        Long questId = 1L; //test 1 quest TODO change test questId (remove this line)
-        HttpSession session = req.getSession();
+        Long questId = Long.parseLong(req.getParameter(Key.QUEST_ID));
         Optional<User> user = RequestHelper.getUser(req.getSession());
         if (user.isPresent()) {
             Long userId = user.get().getId();
@@ -49,12 +46,11 @@ public class PlayGame implements Command {
 
     @Override
     public String doPost(HttpServletRequest req) {
-        HttpSession session = req.getSession();
         Long gameId = RequestHelper.getId(req);
         Long answerId = RequestHelper.getId(req, Key.ANSWER);
         Optional<Game> gameOptional = gameService.processOneStep(gameId, answerId);
         if (gameOptional.isPresent()) {
-            if (answerId == 0 && req.getParameter("new-game") == null) {
+            if (answerId == 0 && req.getParameter(Key.NEW_GAME) == null) {
                 RequestHelper.setError(req, Err.NEED_TO_SELECT_ANSWER);
             }
             Game game = gameOptional.get();

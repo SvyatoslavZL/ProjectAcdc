@@ -17,21 +17,26 @@ import java.util.Collection;
 @ToString(exclude = {"quests", "games"})
 public class User implements Identifiable {
 
-    @Transient
-    private final Collection<Quest> quests = new ArrayList<>();
-    @Transient
-    private final Collection<Game> games = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String login;
+
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
     public String getImage() {
         return Key.USER + "-" + id;
     }
+
+    @Transient
+    private final Collection<Quest> quests = new ArrayList<>();
+
+    @Transient
+    private final Collection<Game> games = new ArrayList<>();
 }
 
 

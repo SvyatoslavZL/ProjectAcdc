@@ -23,8 +23,9 @@ import java.io.IOException;
         Go.INDEX, Go.HOME,
         Go.SIGNUP, Go.LOGIN, Go.LOGOUT,
         Go.PROFILE, Go.LIST_USER, Go.EDIT_USER,
-
+        Go.CREATE_QUEST, Go.QUEST,
         Go.PLAY_GAME
+
 })
 public class FrontController extends HttpServlet {
 
@@ -40,7 +41,7 @@ public class FrontController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uriCommand = RequestHelper.getCommand(req);
-        String cmdName = uriCommand.equals("/") ? "home" : uriCommand.substring(1);
+        String cmdName = uriCommand.equals("/") ? Key.HOME : uriCommand.substring(1);
         Command command = httpResolver.resolve(cmdName);
         if (req.getMethod().equalsIgnoreCase(Key.GET)) {
             String view = command.doGet(req);

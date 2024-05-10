@@ -22,8 +22,9 @@ import java.util.Optional;
         Go.INDEX, Go.HOME,
         Go.SIGNUP, Go.LOGIN, Go.LOGOUT,
         Go.PROFILE, Go.LIST_USER, Go.EDIT_USER,
-
+        Go.CREATE_QUEST, Go.QUEST,
         Go.PLAY_GAME
+
 })
 public class AuthorizationFilter extends HttpFilter {
     private final Map<Role, List<String>> uriMap = Map.of(
@@ -32,12 +33,12 @@ public class AuthorizationFilter extends HttpFilter {
             ),
             Role.USER, List.of(
                     Go.HOME, Go.INDEX, Go.SIGNUP, Go.LOGIN,
-                    Go.PROFILE, Go.EDIT_USER, Go.LOGOUT, Go.PLAY_GAME
+                    Go.PROFILE, Go.EDIT_USER, Go.LOGOUT, Go.PLAY_GAME, Go.QUEST
             ),
             Role.ADMIN, List.of(
                     Go.HOME, Go.INDEX, Go.SIGNUP, Go.LOGIN,
-                    Go.PROFILE, Go.EDIT_USER, Go.LOGOUT, Go.PLAY_GAME,
-                    Go.LIST_USER
+                    Go.PROFILE, Go.EDIT_USER, Go.LOGOUT, Go.PLAY_GAME, Go.QUEST,
+                    Go.CREATE_QUEST, Go.LIST_USER
             )
     );
 

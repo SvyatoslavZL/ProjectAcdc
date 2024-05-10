@@ -17,7 +17,7 @@ import java.util.Objects;
 public class ImageService {
     public static final String IMAGES_FOLDER = "images";
     public static final String IMAGE_PART_NAME = "image";
-    public static final String NO_IMAGE_WEBP = "no-image.webp";
+    public static final String NO_IMAGE_WEBP = "no-image.png";
 
     public static final List<String> EXTENSIONS = List.of(
             ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp"
