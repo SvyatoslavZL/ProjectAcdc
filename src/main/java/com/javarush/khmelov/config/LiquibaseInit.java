@@ -6,6 +6,10 @@ import liquibase.command.CommandScope;
 import liquibase.resource.ClassLoaderResourceAccessor;
 
 public class LiquibaseInit {
+    public static void main(String[] args) {
+        create();
+    }
+
     public static void create() {
         System.out.println("Running Liquibase...");
 

@@ -17,7 +17,7 @@ import java.util.*;
 public class NanoSpring {
 
     private static final Map<Class<?>, Object> beans = new HashMap<>();
-    public static final String CLASSES = "/classes/";
+    public static final String CLASSES = File.separator+"classes"+File.separator;
     public static final String EXT = ".class";
     public static final String DOT = ".";
     public static final String EMPTY = "";
