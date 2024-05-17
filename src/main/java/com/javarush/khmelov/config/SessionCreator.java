@@ -2,6 +2,7 @@ package com.javarush.khmelov.config;
 
 import com.javarush.khmelov.entity.*;
 import com.javarush.lesson09.UserDbDao;
+import com.javarush.lesson12.convertor.DemoConvertor;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,6 +29,7 @@ public class SessionCreator implements Closeable {
         configuration.addAnnotatedClass(Question.class);
         configuration.addAnnotatedClass(Answer.class);
         configuration.addAnnotatedClass(Game.class);
+        configuration.addAttributeConverter(new DemoConvertor(),true);
         sessionFactory = configuration.buildSessionFactory();
     }
 
