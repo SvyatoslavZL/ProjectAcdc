@@ -1,38 +1,31 @@
-package com.javarush.kovalinsky.repository;
+package com.javarush.lesson10;
 
+import com.javarush.kovalinsky.entity.Quest;
 import com.javarush.kovalinsky.exception.AppException;
+import com.javarush.kovalinsky.repository.Repository;
 import com.javarush.kovalinsky.config.SessionCreator;
-import jakarta.persistence.Transient;
-import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.hibernate.query.criteria.JpaRoot;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public abstract class BaseRepository<T> implements Repository<T> {
+public class QuestDbDao implements Repository<Quest> {
 
-    private final Class<T> entityClass;
     private final SessionCreator sessionCreator;
 
     @Override
-    public Collection<T> getAll() {
+    public Collection<Quest> getAll() {
         Session session = sessionCreator.getSession();
         try (session) {
             Transaction tx = session.beginTransaction();
             try {
-                Query<T> query = session.createQuery("SELECT e FROM %s e".
-                                formatted(entityClass.getName()),
-                        entityClass);
-                List<T> list = query.list();
+                Query<Quest> questQuery = session.createQuery("SELECT q FROM Quest q", Quest.class);
+                List<Quest> list = questQuery.list();
                 tx.commit();
                 return list;
             } catch (Exception e) {
@@ -43,40 +36,20 @@ public abstract class BaseRepository<T> implements Repository<T> {
     }
 
     @Override
-    public Stream<T> find(T pattern) {
-        Session session = sessionCreator.getSession();
-        try (session) {
-            var criteriaBuilder = session.getCriteriaBuilder();
-            var criteriaQuery = criteriaBuilder.createQuery(entityClass);
-            JpaRoot<T> from = criteriaQuery.from(entityClass);
-            Field[] fields = pattern.getClass().getDeclaredFields();
-            var predicates = new ArrayList<Predicate>();
-            for (Field field : fields) {
-                field.trySetAccessible();
-                String name = field.getName();
-                Object value = field.get(pattern);
-                if (Objects.nonNull(value) && !field.isAnnotationPresent(Transient.class)) {
-                    var predicate = criteriaBuilder.equal(from.get(name), value);
-                    predicates.add(predicate);
-                }
-            }
-            criteriaQuery.select(from);
-            criteriaQuery.where(predicates.toArray(Predicate[]::new));
-            return session.createQuery(criteriaQuery).list().stream();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public Stream<Quest> find(Quest pattern) {
+        //Criteria API
+        return null;
     }
 
     @Override
-    public T get(long id) {
+    public Quest get(long id) {
         Session session = sessionCreator.getSession();
         try (session) {
             Transaction tx = session.beginTransaction();
             try {
-                T entity = session.find(entityClass, id);
+                Quest quest = session.find(Quest.class, id);
                 tx.commit();
-                return entity;
+                return quest;
             } catch (Exception e) {
                 tx.rollback();
                 throw new AppException(e);
@@ -85,12 +58,12 @@ public abstract class BaseRepository<T> implements Repository<T> {
     }
 
     @Override
-    public void create(T entity) {
+    public void create(Quest quest) {
         Session session = sessionCreator.getSession();
         try (session) {
             Transaction tx = session.beginTransaction();
             try {
-                session.persist(entity);
+                session.persist(quest);
                 tx.commit();
             } catch (Exception e) {
                 tx.rollback();
@@ -100,12 +73,12 @@ public abstract class BaseRepository<T> implements Repository<T> {
     }
 
     @Override
-    public void update(T entity) {
+    public void update(Quest quest) {
         Session session = sessionCreator.getSession();
         try (session) {
             Transaction tx = session.beginTransaction();
             try {
-                session.merge(entity);
+                session.merge(quest);
                 tx.commit();
             } catch (Exception e) {
                 tx.rollback();
@@ -115,12 +88,12 @@ public abstract class BaseRepository<T> implements Repository<T> {
     }
 
     @Override
-    public void delete(T entity) {
+    public void delete(Quest quest) {
         Session session = sessionCreator.getSession();
         try (session) {
             Transaction tx = session.beginTransaction();
             try {
-                session.remove(entity);
+                session.remove(quest);
                 tx.commit();
             } catch (Exception e) {
                 tx.rollback();

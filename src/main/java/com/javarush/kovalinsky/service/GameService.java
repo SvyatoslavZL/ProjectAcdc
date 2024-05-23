@@ -36,7 +36,7 @@ public class GameService {
     private Game getNewGame(Long userId, Long questId) {
         Quest quest = questRepository.get(questId);
         Long startQuestionId = quest.getStartQuestionId();
-        Question startQuestion = questionRepository.get(startQuestionId);
+        Question startQuestion = questionRepository.get(startQuestionId); //todo fix error startQueId - NullPointerEx
         Game newGame = Game.builder()
                 .questId(questId)
                 .currentQuestionId(startQuestionId)

@@ -7,6 +7,7 @@ import com.javarush.kovalinsky.service.UserService;
 
 public class Config {
 
+    public static final String FIRST_QUEST_NAME = "НЛО";
     private final UserService userService;
     private final QuestService questService;
 
@@ -16,19 +17,22 @@ public class Config {
     }
 
     public void fillStartData() {
-        if (userService.get(1L).isEmpty()) {
-            User admin = new User(-1L, "ZipL", "admin", Role.ADMIN);
-            userService.create(admin);
+        LiquibaseInit.create();
+        User admin = userService.get(1L).orElseThrow();
+        boolean firstQuestNotFound = questService.
+                getAll().
+                stream().
+                filter(quest -> quest.getName().equals(FIRST_QUEST_NAME))
+                .findFirst()
+                .isEmpty();
+        if (firstQuestNotFound) {
             addDemoQuests(admin);
-
-            userService.create(new User(-1L, "Alisa", "qwerty", Role.USER));
-            userService.create(new User(-1L, "Bob", "1234", Role.GUEST));
         }
     }
 
     private void addDemoQuests(User author) {
         Long authorId = author.getId();
-        questService.create("НЛО",
+        questService.create(FIRST_QUEST_NAME,
                 """
                         1: Ты потерял память. Принять вызов НЛО?
                         2<  Принять вызов

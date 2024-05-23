@@ -6,17 +6,17 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
+@Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
 @Table(name = "users")
-@ToString(exclude = {"quests", "games"})
+@ToString
 public class User implements Identifiable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,11 +32,32 @@ public class User implements Identifiable {
         return Key.USER + "-" + id;
     }
 
-    @Transient
+    @OneToMany(mappedBy = "author")
+    @ToString.Exclude
     private final Collection<Quest> quests = new ArrayList<>();
 
-    @Transient
+    @OneToMany
+    @ToString.Exclude
+    @JoinColumn(name = "users_id")
     private final Collection<Game> games = new ArrayList<>();
+
+    public void addQuest(Quest quest) {
+        quest.setAuthor(this);
+        quests.add(quest);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 42;
+    }
 }
 
 
