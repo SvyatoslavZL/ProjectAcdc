@@ -2,7 +2,7 @@ package com.javarush.khmelov.repository;
 
 import com.javarush.khmelov.exception.AppException;
 import com.javarush.khmelov.config.SessionCreator;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
@@ -60,8 +60,7 @@ public abstract class BaseRepository<T> implements Repository<T> {
                 field.trySetAccessible();
                 String name = field.getName();
                 Object value = field.get(pattern);
-                if (Objects.nonNull(value)
-                    && !field.isAnnotationPresent(Transient.class)) {
+                if (isPredacate(field, value)) {
                     var predicate = criteriaBuilder.equal(from.get(name), value);
                     predicates.add(predicate);
                 }
@@ -72,6 +71,15 @@ public abstract class BaseRepository<T> implements Repository<T> {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static boolean isPredacate(Field field, Object value) {
+        return Objects.nonNull(value)
+               && !field.isAnnotationPresent(Transient.class)
+               && !field.isAnnotationPresent(OneToMany.class)
+               && !field.isAnnotationPresent(ManyToOne.class)
+               && !field.isAnnotationPresent(OneToOne.class)
+               && !field.isAnnotationPresent(ManyToMany.class);
     }
 
     @Override

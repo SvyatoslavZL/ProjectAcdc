@@ -21,7 +21,7 @@ public class Associations {
             try {
                 admin = session.get(User.class, 1L);
                 System.out.println(admin);
-                System.out.println(admin.getUserData());
+                System.out.println(admin.getUserInfo());
                 System.out.println(admin.getQuests());
                 tx.commit();
             } catch (Exception e) {

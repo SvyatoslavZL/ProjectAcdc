@@ -1,42 +1,60 @@
 package com.javarush.khmelov.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-@Entity
 @Getter
 @Setter
-@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = {"questions"})
-@NamedQueries({
-        @NamedQuery(name = "QUERY_MORE_ID", query = "SELECT q FROM Quest q where id>:id"),
-        @NamedQuery(name = "QUERY_MORE_ID2", query = "SELECT q FROM Quest q where id>:id"),
-        @NamedQuery(name = "QUERY_MORE_ID3", query = "SELECT q FROM Quest q where id=:id"),
-        @NamedQuery(name = "QUERY_MORE_ID4", query = "SELECT q FROM Quest q where id>:id"),
-        @NamedQuery(name = "QUERY_MORE_ID5", query = "SELECT q FROM Quest q where id>:id"),
-})
-
+@Builder
+@Entity
+@FetchProfile(name = Quest.LAZY_QUESTIONS_AND_JOIN_AUTHOR,
+        fetchOverrides={
+                @FetchProfile.FetchOverride(
+                        entity = Quest.class,
+                        association = "questions",
+                        mode = FetchMode.JOIN //тут и ниже надо было JOIN
+                ),
+                @FetchProfile.FetchOverride(
+                        entity = Quest.class,
+                        association ="author",
+                        mode = FetchMode.JOIN
+                )
+        }
+)
 public class Quest implements AbstractEntity {
+    public static final String LAZY_QUESTIONS_AND_JOIN_AUTHOR = "lazy_questions_and_join_author";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String text;
 
-    @Transient
-    private Long authorId; //not found //todo refactor
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id")
+    @ToString.Exclude
     private User author;
 
     @Column(name = "start_question_id")
     private Long startQuestionId;
+
+    @OneToMany
+    @JoinColumn(name = "quest_id")
+    @ToString.Exclude
+//    @Fetch(FetchMode.SUBSELECT)
+    private List<Question> questions;
+
 
     @ManyToMany
     @JoinTable(name = "game",
@@ -44,9 +62,6 @@ public class Quest implements AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id")
     )
     @ToString.Exclude
-    final Collection<User> gamers = new ArrayList<>();
-
-    @Transient
-    private final Collection<Question> questions = new ArrayList<>();
+    final Collection<User> players=new ArrayList<>();
 
 }

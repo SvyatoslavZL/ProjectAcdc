@@ -1,14 +1,19 @@
 package com.javarush.khmelov.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.*;
+import org.hibernate.Hibernate;
 
-@Entity
+import jakarta.persistence.*;
+import java.util.Objects;
+
 @Getter
 @Setter
-@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Entity
 public class Game implements AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +31,17 @@ public class Game implements AbstractEntity {
     @Column(name = "game_state")
     @Enumerated(EnumType.STRING)
     private GameState gameState;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Game game = (Game) o;
+        return getId() != null && Objects.equals(getId(), game.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -46,7 +46,7 @@ public class QuestService {
             return Optional.empty();
         }
         Quest quest = Quest.builder()
-                .authorId(userId)
+                .author(userRepository.get(userId))
                 .name(name)
                 .text(text)
                 .startQuestionId(0L)

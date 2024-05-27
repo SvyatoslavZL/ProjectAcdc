@@ -1,7 +1,9 @@
 package com.javarush.khmelov.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+
+import jakarta.persistence.*;
+
 
 @Entity
 @Getter
@@ -9,18 +11,20 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_data")
-public class UserData {
+@ToString
+@Table(name = "user_info")
+public class UserInfo {
 
     @Id
     @Column(name = "user_id")
-    Long id;
-
-    String phone;
+    Long userId;
 
     String address;
 
+    String phone;
+
     @OneToOne
     @JoinColumn(name = "user_id")
+    @ToString.Exclude
     User user;
 }

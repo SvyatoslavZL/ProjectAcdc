@@ -9,11 +9,11 @@ public class DemoConvertor implements AttributeConverter<Password,String> {
 
     @Override
     public String convertToDatabaseColumn(Password password) {
-        return null;
+        return password.getValue().toString(); //some logic to Db Type
     }
 
     @Override
     public Password convertToEntityAttribute(String string) {
-        return null;
+        return Password.builder().value(string).build(); //some logic from Db Type
     }
 }

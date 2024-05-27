@@ -13,4 +13,6 @@
     <include file="/db/2024/04/23-06-question.xml" relativeToChangelogFile="false"/>
     <include file="/db/2024/04/23-07-answer.xml" relativeToChangelogFile="false"/>
     <include file="/db/2024/04/23-08-game.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/05/27-01-user-info.xml" relativeToChangelogFile="false"/>
+    <include file="/db/2024/05/27-02-users-info-data.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

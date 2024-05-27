@@ -1,17 +1,21 @@
 package com.javarush.khmelov.entity;
 
-import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
-@Entity
 @Getter
 @Setter
-@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "question")
 public class Question implements AbstractEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +30,26 @@ public class Question implements AbstractEntity {
     @Enumerated(EnumType.STRING)
     private GameState gameState;
 
+    @OneToMany
+    @JoinColumn(name = "question_id")
+    @ToString.Exclude
+    private final Collection<Answer> answers = new ArrayList<>();
+
+    @Transient
     public String getImage() {
         return "question-" + id;
     }
 
-    @Transient
-    private final Collection<Answer> answers = new ArrayList<>();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Question question = (Question) o;
+        return getId() != null && Objects.equals(getId(), question.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
