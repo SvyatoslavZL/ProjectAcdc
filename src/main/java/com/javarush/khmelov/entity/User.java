@@ -14,7 +14,7 @@ import java.util.Objects;
 @Builder
 @Entity
 @Table(name = "users")
-@ToString(exclude = {"quests", "games"})
+@ToString
 public class User implements AbstractEntity {
 
     @Id
@@ -32,22 +32,41 @@ public class User implements AbstractEntity {
         return "user-" + id;
     }
 
-    @Transient
+    @OneToMany(mappedBy = "author")
+    @ToString.Exclude
     private final Collection<Quest> quests = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user")
+    @ToString.Exclude
+    UserData userData;
+
     @Transient
+    @ToString.Exclude
     private final Collection<Game> games = new ArrayList<>();
+
+    public void addQuest(Quest quest){
+        quest.setAuthor(this);
+        quests.add(quest);
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id);
+        return id!=null && Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
         return 42;
     }
+
+    @ManyToMany
+    @JoinTable(name = "game",
+            joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "quest_id", referencedColumnName = "id")
+    )
+    @ToString.Exclude
+    final Collection<Quest> gameQuests = new ArrayList<>();
 }

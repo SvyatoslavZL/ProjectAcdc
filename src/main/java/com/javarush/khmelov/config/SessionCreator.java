@@ -25,6 +25,7 @@ public class SessionCreator implements Closeable {
      // configuration.addProperties(properties);               //3.3 application.properties
      // configuration.add????Resource()                        //and 100500 other ways
         configuration.addAnnotatedClass(User.class);
+        configuration.addAnnotatedClass(UserData.class);
         configuration.addAnnotatedClass(Quest.class);
         configuration.addAnnotatedClass(Question.class);
         configuration.addAnnotatedClass(Answer.class);

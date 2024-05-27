@@ -28,11 +28,23 @@ public class Quest implements AbstractEntity {
     private String name;
     private String text;
 
-    @Column(name = "users_id")
-    private Long authorId;
+    @Transient
+    private Long authorId; //not found //todo refactor
+
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User author;
 
     @Column(name = "start_question_id")
     private Long startQuestionId;
+
+    @ManyToMany
+    @JoinTable(name = "game",
+            joinColumns = @JoinColumn(name = "quest_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id")
+    )
+    @ToString.Exclude
+    final Collection<User> gamers = new ArrayList<>();
 
     @Transient
     private final Collection<Question> questions = new ArrayList<>();
