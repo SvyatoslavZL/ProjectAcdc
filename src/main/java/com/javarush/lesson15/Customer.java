@@ -4,13 +4,13 @@ import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @SuperBuilder
+@ToString(callSuper = true)
 public class Customer extends BaseParent {
     int orderCount;
 }

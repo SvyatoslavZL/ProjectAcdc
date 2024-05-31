@@ -7,11 +7,10 @@ import lombok.experimental.SuperBuilder;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @SuperBuilder
+@ToString(callSuper = true)
 public class Seller extends BaseParent {
     double profit;
 }

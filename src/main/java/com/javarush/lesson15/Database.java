@@ -30,9 +30,9 @@ enum Database {
     }
 
     Database() {
-        LogManager logManager = LogManager.getLogManager();
-        Logger logger = logManager.getLogger("");
-        logger.setLevel(Level.WARNING);
+        LogManager.getLogManager()
+                .getLogger("")
+                .setLevel(Level.WARNING);
 
         Configuration configure = new Configuration()
                 .setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/game")

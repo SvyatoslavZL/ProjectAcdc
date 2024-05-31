@@ -1,22 +1,23 @@
 package com.javarush.lesson15;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 public class Runner {
     public static void main(String[] args) {
         Session session = Database.SESSION.open();
         try (session) {
             Transaction tx = session.beginTransaction();
+
+            BaseParent baseParent = BaseParent.builder()
+                    .name("baseParentName")
+                    .email("baseParentEmail")
+                    .build();
+            session.persist(baseParent);
+
             Customer customer = Customer.builder()
                     .name("customerName")
-                    .email("customereEmail")
+                    .email("customerEmail")
                     .orderCount(321)
                     .build();
             session.persist(customer);
@@ -28,8 +29,9 @@ public class Runner {
                     .build();
             session.persist(seller);
 
-            System.out.println(customer);
-            session.flush();
+            session.createQuery("SELECT b FROM BaseParent b",BaseParent.class)
+                    .list()
+                    .forEach(System.out::println);
             tx.commit();
         }
 

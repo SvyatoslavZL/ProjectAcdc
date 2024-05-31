@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @SuperBuilder
+@ToString
 public abstract class AbstractEntity<T extends Serializable> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
