@@ -5,14 +5,12 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Getter
-@Setter
-@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer extends BaseParent{
-
-
+@Getter
+@Setter
+@ToString
+@SuperBuilder
+public class Customer extends BaseParent {
     int orderCount;
-
 }

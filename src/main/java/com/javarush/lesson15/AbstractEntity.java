@@ -1,21 +1,21 @@
 package com.javarush.lesson15;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.MappedSuperclass;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
-
+@MappedSuperclass
 @Getter
 @Setter
-@MappedSuperclass
+@NoArgsConstructor
+@SuperBuilder
 public abstract class AbstractEntity<T extends Serializable> {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     T id;
+
 }
+
+

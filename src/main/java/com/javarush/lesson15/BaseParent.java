@@ -6,19 +6,13 @@ import jakarta.persistence.InheritanceType;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-
-
-
 @Entity
 @Getter
 @Setter
+@Inheritance(strategy = InheritanceType.JOINED)
 @SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class BaseParent extends AbstractEntity<Long> {
-
     String name;
     String email;
-
 }

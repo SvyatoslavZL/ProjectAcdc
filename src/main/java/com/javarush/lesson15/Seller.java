@@ -4,14 +4,14 @@ import jakarta.persistence.Entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+
 @Entity
-@Getter
-@Setter
-@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
+@ToString
+@SuperBuilder
 public class Seller extends BaseParent {
-
     double profit;
-
 }
