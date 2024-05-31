@@ -30,7 +30,6 @@ public class User implements AbstractEntity{
 
     @OneToMany(mappedBy = "author")
     @ToString.Exclude
-//    @Fetch(FetchMode.JOIN)
     private List<Quest> quests;
 
     @OneToMany
