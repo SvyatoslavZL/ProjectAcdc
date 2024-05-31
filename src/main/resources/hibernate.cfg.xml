@@ -11,6 +11,11 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.format_sql">true</property>
 
+    <!--  see https://howtodoinjava.com/hibernate/configuring-ehcache-3-with-hibernate-6/-->
+    <property name="hibernate.cache.use_second_level_cache">true</property>
+    <property name="hibernate.cache.region.factory_class">jcache</property>
+    <property name="hibernate.javax.cache.provider">org.ehcache.jsr107.EhcacheCachingProvider</property>
+
     <!-- DB schema will be updated if needed -->
 <!--     <property name="hibernate.hbm2ddl.auto">create</property> -->
   </session-factory>

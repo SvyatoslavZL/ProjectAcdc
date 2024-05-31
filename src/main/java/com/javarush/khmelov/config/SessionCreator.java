@@ -28,6 +28,9 @@ public class SessionCreator implements Closeable {
         configuration.addAnnotatedClass(Answer.class);
         configuration.addAnnotatedClass(Game.class);
         //configuration.addAttributeConverter(new DemoConvertor(), true);
+
+
+
         sessionFactory = configuration.buildSessionFactory();
     }
 

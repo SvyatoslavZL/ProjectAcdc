@@ -1,10 +1,9 @@
 package com.javarush.khmelov.entity;
 
-import lombok.*;
-
 import jakarta.persistence.*;
-
-import java.io.Serializable;
+import lombok.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 
 @Entity
@@ -15,6 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @ToString
 @Table(name = "user_info")
+@Cacheable
 public class UserInfo {
 
     @Id

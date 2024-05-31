@@ -1,8 +1,10 @@
 package com.javarush.khmelov.entity;
 
-import lombok.*;
-
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -15,7 +17,8 @@ import java.util.List;
 @Entity
 @ToString
 @Table(name = "users")
-public class User implements AbstractEntity{
+@Cacheable
+public class User implements AbstractEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,7 +55,6 @@ public class User implements AbstractEntity{
             inverseJoinColumns = @JoinColumn(name = "quest_id", referencedColumnName = "id"))
     @ToString.Exclude
     final Collection<Quest> questsInGame = new ArrayList<>();
-
 
 
 }

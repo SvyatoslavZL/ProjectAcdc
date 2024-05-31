@@ -39,12 +39,6 @@ public class PerformanceTest {
                     System.out.println(author.getLogin() + " " + author.getUserInfo() + " " + quest.getId() + ": " + quest.getQuestions().size());
                 }
 
-                String s1="1";
-                String s2="2";
-                String s3;
-                System.out.println(s3=s1+""+s2+(false && !false));
-
-
                 tx.commit();
             } catch (Exception e) {
                 tx.rollback();
