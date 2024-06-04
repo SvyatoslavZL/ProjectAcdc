@@ -5,12 +5,14 @@ import com.javarush.khmelov.entity.GameState;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.entity.UserStatistics;
 import com.javarush.khmelov.repository.Repository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
+@Transactional
 public class StatService {
 
     private final Repository<User> userRepository;

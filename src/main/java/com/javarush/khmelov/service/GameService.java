@@ -2,12 +2,14 @@ package com.javarush.khmelov.service;
 
 import com.javarush.khmelov.entity.*;
 import com.javarush.khmelov.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 import java.util.Comparator;
 import java.util.Optional;
 
 @AllArgsConstructor
+@Transactional
 public class GameService {
 
     private final Repository<User> userRepository;

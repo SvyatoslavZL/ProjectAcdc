@@ -74,7 +74,7 @@ public class Quest implements AbstractEntity {
     @OneToMany
     @JoinColumn(name = "quest_id")
     @ToString.Exclude
-    private List<Question> questions;
+    private final List<Question> questions = new ArrayList<>();
 
 
     @ManyToMany
@@ -83,6 +83,6 @@ public class Quest implements AbstractEntity {
             inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id")
     )
     @ToString.Exclude
-    final Collection<User> players = new ArrayList<>();
+    private final Collection<User> players = new ArrayList<>();
 
 }

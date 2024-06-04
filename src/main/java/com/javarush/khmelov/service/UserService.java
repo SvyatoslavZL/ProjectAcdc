@@ -3,17 +3,18 @@ package com.javarush.khmelov.service;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.repository.Repository;
 import com.javarush.khmelov.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 
 import java.util.Collection;
 import java.util.Optional;
 
+@AllArgsConstructor
+@Transactional
 public class UserService {
 
     private final Repository<User> userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public void create(User user) {
         userRepository.create(user);

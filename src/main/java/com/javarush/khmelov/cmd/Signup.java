@@ -25,7 +25,6 @@ public class Signup implements Command {
     @Override
     public String doPost(HttpServletRequest request) throws ServletException, IOException {
         User user = User.builder()
-                .id(0L)
                 .login(request.getParameter(Key.LOGIN))
                 .password(request.getParameter(Key.PASSWORD))
                 .role(Role.valueOf(request.getParameter(Key.ROLE)))

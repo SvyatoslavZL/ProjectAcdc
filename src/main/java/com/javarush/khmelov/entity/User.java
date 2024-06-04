@@ -54,7 +54,7 @@ public class User implements AbstractEntity {
             joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "quest_id", referencedColumnName = "id"))
     @ToString.Exclude
-    final Collection<Quest> questsInGame = new ArrayList<>();
+    private final Collection<Quest> questsInGame = new ArrayList<>();
 
 
 }
