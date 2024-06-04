@@ -1,5 +1,6 @@
 package com.javarush.lesson14;
 
+import com.javarush.khmelov.config.ApplicationProperties;
 import com.javarush.khmelov.config.SessionCreator;
 import com.javarush.khmelov.entity.User;
 import lombok.Cleanup;
@@ -12,7 +13,7 @@ public class CacheTest {
 
     @Test
     public void read() throws Exception {
-        @Cleanup SessionCreator sessionCreator = new SessionCreator();
+        @Cleanup SessionCreator sessionCreator = new SessionCreator(new ApplicationProperties());
         for (int i = 0; i < 1000; i++) {
             Session session = sessionCreator.getSession();
             try (session) {

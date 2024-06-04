@@ -1,5 +1,6 @@
 package com.javarush.lesson13;
 
+import com.javarush.khmelov.config.ApplicationProperties;
 import com.javarush.khmelov.config.SessionCreator;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.exception.AppException;
@@ -13,7 +14,7 @@ public class Associations {
 
     @Test
     public void read() throws Exception{
-        @Cleanup SessionCreator sessionCreator = new SessionCreator();
+        @Cleanup SessionCreator sessionCreator = new SessionCreator(new ApplicationProperties());
         Session session = sessionCreator.getSession();
         User admin=null;
         try (session) {

@@ -1,5 +1,6 @@
 package com.javarush.lesson11;
 
+import com.javarush.khmelov.config.ApplicationProperties;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.exception.AppException;
 import com.javarush.khmelov.config.SessionCreator;
@@ -9,7 +10,7 @@ import org.hibernate.stat.SessionStatistics;
 
 public class HibernateContext {
     public static void main(String[] args) {
-        SessionCreator sessionCreator = new SessionCreator();
+        SessionCreator sessionCreator = new SessionCreator(new ApplicationProperties());
         Session session = sessionCreator.getSession();
         try (session) {
             Transaction tx = session.beginTransaction();

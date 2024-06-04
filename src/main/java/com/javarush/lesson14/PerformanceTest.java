@@ -1,5 +1,6 @@
 package com.javarush.lesson14;
 
+import com.javarush.khmelov.config.ApplicationProperties;
 import com.javarush.khmelov.config.SessionCreator;
 import com.javarush.khmelov.entity.Quest;
 import com.javarush.khmelov.entity.User;
@@ -18,7 +19,7 @@ public class PerformanceTest {
 
     @Test
     public void read() throws Exception {
-        @Cleanup SessionCreator sessionCreator = new SessionCreator();
+        @Cleanup SessionCreator sessionCreator = new SessionCreator(new ApplicationProperties());
         Session session = sessionCreator.getSession();
         try (session) {
             Transaction tx = session.beginTransaction();

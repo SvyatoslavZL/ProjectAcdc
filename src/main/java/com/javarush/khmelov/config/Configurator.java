@@ -3,20 +3,21 @@ package com.javarush.khmelov.config;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.service.QuestService;
 import com.javarush.khmelov.service.UserService;
+import lombok.AllArgsConstructor;
 
-public class Config {
+@AllArgsConstructor
+public class Configurator {
 
-    public static final String FIRST_QUEST_NAME = "Играем в неопознанный летающий объект (обязательный квест)";
     private final UserService userService;
     private final QuestService questService;
+    private final ValidatorDataBase validatorDataBase;
 
-    public Config(UserService userService, QuestService questService) {
-        this.userService = userService;
-        this.questService = questService;
-    }
+    public static final String FIRST_QUEST_NAME = "Играем в неопознанный летающий объект (обязательный квест)";
+
+
 
     public void fillStartData() {
-        LiquibaseInit.create();
+        validatorDataBase.start();
         User admin = userService.get(1L).orElseThrow();
         boolean notFoundFirstQuest = questService
                 .getAll()

@@ -1,6 +1,7 @@
 package com.javarush.lesson09;
 
 import com.javarush.khmelov.BaseIT;
+import com.javarush.khmelov.config.ApplicationProperties;
 import com.javarush.khmelov.config.SessionCreator;
 import com.javarush.khmelov.entity.Role;
 import com.javarush.khmelov.entity.User;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class UserDbDaoTest extends BaseIT {
 
-    private final SessionCreator sessionCreator = new SessionCreator();
+    private final SessionCreator sessionCreator = new SessionCreator(new ApplicationProperties());
     UserDbDao userDao = new UserDbDao(sessionCreator);
 
     @Test

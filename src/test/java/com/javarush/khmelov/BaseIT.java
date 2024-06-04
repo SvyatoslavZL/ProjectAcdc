@@ -1,6 +1,6 @@
 package com.javarush.khmelov;
 
-import com.javarush.khmelov.config.Config;
+import com.javarush.khmelov.config.Configurator;
 import com.javarush.khmelov.config.NanoSpring;
 import com.javarush.khmelov.entity.Role;
 import com.javarush.khmelov.entity.User;
@@ -17,7 +17,7 @@ public class BaseIT {
     protected final HttpServletRequest request;
     protected final HttpServletResponse response;
     protected final HttpSession session;
-    protected final Config config;
+    protected final Configurator configurator;
     protected final ServletConfig servletConfig;
     protected final ServletContext servletContext;
     protected final User testAdmin;
@@ -25,10 +25,10 @@ public class BaseIT {
     protected final User testGuest;
 
     protected BaseIT() {
-        //app config
-        config = NanoSpring.find(Config.class);
-        config.fillStartData();
-        //servlet config
+        //app configurator
+        configurator = NanoSpring.find(Configurator.class);
+        configurator.fillStartData();
+        //servlet configurator
         servletConfig = mock(ServletConfig.class);
         servletContext = mock(ServletContext.class);
         when(servletConfig.getServletContext()).thenReturn(servletContext);

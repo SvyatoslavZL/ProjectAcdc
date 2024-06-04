@@ -11,13 +11,13 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.stream.Stream;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class NanoSpring {
 
     private static final Map<Class<?>, Object> beans = new HashMap<>();
-    public static final String CLASSES = File.separator+"classes"+File.separator;
+    public static final String CLASSES = File.separator + "classes" + File.separator;
     public static final String EXT = ".class";
     public static final String DOT = ".";
     public static final String EMPTY = "";
@@ -52,7 +52,7 @@ public class NanoSpring {
         URL resource = NanoSpring.class.getResource("NanoSpring.class");
         URI uri = Objects.requireNonNull(resource).toURI();
         Path appRoot = Path.of(uri).getParent().getParent();
-        scanPackages(appRoot);
+        scanPackages(appRoot, "Controller", "Servlet", "Filter");
     }
 
     public static void scanPackages(Path appPackage, String... excludes) {
@@ -91,7 +91,7 @@ public class NanoSpring {
         throw new RuntimeException("Not found impl for %s (type=%s)".formatted(aClass, type));
     }
 
-    public static boolean checkGenerics(Type type, Class<?> impl) {
+    private static boolean checkGenerics(Type type, Class<?> impl) {
         var typeContractGeneric = NanoSpring.getContractGeneric(type);
         return Objects.nonNull(impl) &&
                Stream.iterate(impl, Objects::nonNull, (Class<?> c) -> c.getSuperclass())
@@ -122,4 +122,7 @@ public class NanoSpring {
             return null;
         }
     }
+
+    //********************* add proxy (for @Transactional)  ************************
+
 }

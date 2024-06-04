@@ -1,5 +1,6 @@
 package com.javarush.lesson10;
 
+import com.javarush.khmelov.config.ApplicationProperties;
 import com.javarush.khmelov.entity.Quest;
 import com.javarush.khmelov.config.SessionCreator;
 import org.hibernate.Session;
@@ -19,7 +20,8 @@ class QuestDbDaoTest {
 
     @BeforeEach
     void setUp() {
-        sessionCreator = new SessionCreator();
+        ApplicationProperties applicationProperties = new ApplicationProperties();
+        sessionCreator = new SessionCreator(applicationProperties);
         session = sessionCreator.getSession();
         questDbDao = new QuestDbDao(sessionCreator);
     }

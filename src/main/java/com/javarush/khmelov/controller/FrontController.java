@@ -1,7 +1,7 @@
 package com.javarush.khmelov.controller;
 
 import com.javarush.khmelov.cmd.Command;
-import com.javarush.khmelov.config.Config;
+import com.javarush.khmelov.config.Configurator;
 import com.javarush.khmelov.config.HttpResolver;
 import com.javarush.khmelov.config.NanoSpring;
 import com.javarush.khmelov.entity.Role;
@@ -33,7 +33,7 @@ public class FrontController extends HttpServlet {
     @Override
     public void init(ServletConfig config) {
         httpResolver = NanoSpring.find(HttpResolver.class);
-        NanoSpring.find(Config.class).fillStartData();
+        NanoSpring.find(Configurator.class).fillStartData();
         config.getServletContext().setAttribute("roles", Role.values());
     }
 
