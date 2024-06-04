@@ -10,7 +10,7 @@ public class ValidatorDataBase {
 
     private final ApplicationProperties properties;
 
-    public static final String CLASSPATH_DB_CHANGELOG_XML = "db/changelog.xml";
+    public static final String DB_CHANGELOG_XML = "db/changelog.xml";
 
 
     public void start() {
@@ -18,7 +18,7 @@ public class ValidatorDataBase {
         try {
             Scope.child(Scope.Attr.resourceAccessor, new ClassLoaderResourceAccessor(), () -> {
                 CommandScope update = new CommandScope("update");
-                update.addArgumentValue("changelogFile", "db/changelog.xml");
+                update.addArgumentValue("changelogFile", DB_CHANGELOG_XML);
                 String url = properties.getProperty(ApplicationProperties.HIBERNATE_CONNECTION_URL);
                 update.addArgumentValue("url", url);
                 String username = properties.getProperty(ApplicationProperties.HIBERNATE_CONNECTION_USERNAME);
