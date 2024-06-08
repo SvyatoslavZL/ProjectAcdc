@@ -5,6 +5,12 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OptimisticLock;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
+
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
@@ -14,7 +20,9 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Game implements AbstractEntity {
+@OptimisticLocking(type = OptimisticLockType.VERSION)
+@DynamicUpdate
+public class Game implements AbstractEntity, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +35,9 @@ public class Game implements AbstractEntity {
 
     @Column(name = "current_question_id")
     private Long currentQuestionId;
+
+    @Version
+    private Long version;
 
     @Column(name = "game_state")
     @Enumerated(EnumType.STRING)
