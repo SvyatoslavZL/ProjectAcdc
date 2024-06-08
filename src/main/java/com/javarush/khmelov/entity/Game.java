@@ -21,7 +21,6 @@ import java.util.Objects;
 @Builder
 @Entity
 @OptimisticLocking(type = OptimisticLockType.VERSION)
-@DynamicUpdate
 public class Game implements AbstractEntity, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

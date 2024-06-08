@@ -6,7 +6,7 @@ import com.javarush.khmelov.entity.Game;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class C_NonRepeteableLostUpdate {
+public class C_NonRepeteableRead {
     public static void main(String[] args) {
         SessionCreator sessionCreator = NanoSpring.find(SessionCreator.class);
         Session session1 = sessionCreator.getSession();
