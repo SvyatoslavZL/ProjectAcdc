@@ -1,6 +1,6 @@
 package com.javarush.khmelov.util;
 
-import com.javarush.khmelov.entity.User;
+import com.javarush.khmelov.dto.UserTo;
 import com.javarush.khmelov.exception.AppException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -37,10 +37,10 @@ public class RequestHelper {
                 : 0L;
     }
 
-    public static Optional<User> getUser(HttpSession session) {
+    public static Optional<UserTo> getUser(HttpSession session) {
         Object user = session.getAttribute(Key.USER);
         return user != null
-                ? Optional.of((User) user)
+                ? Optional.of((UserTo) user)
                 : Optional.empty();
     }
 

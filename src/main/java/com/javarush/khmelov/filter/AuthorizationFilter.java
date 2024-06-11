@@ -1,7 +1,7 @@
 package com.javarush.khmelov.filter;
 
-import com.javarush.khmelov.entity.Role;
-import com.javarush.khmelov.entity.User;
+import com.javarush.khmelov.dto.Role;
+import com.javarush.khmelov.dto.UserTo;
 import com.javarush.khmelov.util.Go;
 import com.javarush.khmelov.util.RequestHelper;
 import jakarta.servlet.FilterChain;
@@ -43,7 +43,7 @@ public class AuthorizationFilter extends HttpFilter {
 
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        Optional<User> user = RequestHelper.getUser(req.getSession());
+        Optional<UserTo> user = RequestHelper.getUser(req.getSession());
         Role role = user.isEmpty()
                 ? Role.GUEST
                 : user.get().getRole();

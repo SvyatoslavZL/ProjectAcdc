@@ -1,7 +1,8 @@
 package com.javarush.khmelov.service;
 
-import com.javarush.khmelov.entity.Role;
+import com.javarush.khmelov.dto.Role;
 import com.javarush.khmelov.entity.User;
+import com.javarush.khmelov.mapping.Dto;
 import com.javarush.khmelov.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,14 +55,14 @@ class UserServiceTest {
 
     @Test
     void update() {
-        userService.update(user);
-        Mockito.verify(userRepositoryMock).update(user);
+        userService.update(Dto.MAPPER.from(user));
+        Mockito.verify(userRepositoryMock).update(user); //TODO fix after dto
     }
 
     @Test
     void create() {
-        userService.create(user);
-        Mockito.verify(userRepositoryMock).create(user);
+        userService.create(Dto.MAPPER.from(user));
+        Mockito.verify(userRepositoryMock).create(user); //TODO fix after dto
     }
 
 }

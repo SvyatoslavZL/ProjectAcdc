@@ -2,7 +2,7 @@ package com.javarush.khmelov;
 
 import com.javarush.khmelov.config.Configurator;
 import com.javarush.khmelov.config.NanoSpring;
-import com.javarush.khmelov.entity.Role;
+import com.javarush.khmelov.dto.Role;
 import com.javarush.khmelov.entity.User;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletContext;

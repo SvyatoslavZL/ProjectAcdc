@@ -1,7 +1,7 @@
 package com.javarush.khmelov.cmd;
 
-import com.javarush.khmelov.entity.Role;
-import com.javarush.khmelov.entity.User;
+import com.javarush.khmelov.dto.Role;
+import com.javarush.khmelov.dto.UserTo;
 import com.javarush.khmelov.service.ImageService;
 import com.javarush.khmelov.service.UserService;
 import com.javarush.khmelov.util.RequestHelper;
@@ -27,9 +27,9 @@ public class EditUser implements Command {
         String stringId = req.getParameter("id");
         if (stringId != null) {
             long id = Long.parseLong(stringId);
-            Optional<User> optionalUser = userService.get(id);
+            Optional<UserTo> optionalUser = userService.get(id);
             if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
+                UserTo user = optionalUser.get();
                 req.setAttribute("user", user);
             }
         }
@@ -38,7 +38,7 @@ public class EditUser implements Command {
 
     @Override
     public String doPost(HttpServletRequest req) throws ServletException, IOException {
-        User user = User.builder()
+        UserTo user = UserTo.builder()
                 .login(req.getParameter("login"))
                 .password(req.getParameter("password"))
                 .role(Role.valueOf(req.getParameter("role")))

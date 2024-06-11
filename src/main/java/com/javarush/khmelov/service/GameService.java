@@ -1,6 +1,9 @@
 package com.javarush.khmelov.service;
 
+import com.javarush.khmelov.dto.GameState;
 import com.javarush.khmelov.entity.*;
+import com.javarush.khmelov.dto.GameTo;
+import com.javarush.khmelov.mapping.Dto;
 import com.javarush.khmelov.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -18,16 +21,17 @@ public class GameService {
     private final Repository<Question> questionRepository;
     private final Repository<Answer> answerRepository;
 
-    public Optional<Game> getGame(Long questId, Long userId) {
+    public Optional<GameTo> getGame(Long questId, Long userId) {
         Game gamePattern = Game.builder().questId(questId).build();
-        gamePattern.setUserId(userId);
-        Optional<Game> currentGame = gameRepository
+        Optional<GameTo> currentGame = gameRepository
                 .find(gamePattern)
-                .max(Comparator.comparingLong(Game::getId));
+                .map(Dto.MAPPER::from)
+                .max(Comparator.comparingLong(GameTo::getId));
+        gamePattern.setUserId(userId);
         if (currentGame.isPresent()) {
             return currentGame;
         } else if (gamePattern.getQuestId() != null) {
-            return Optional.of(getNewGame(userId, gamePattern.getQuestId()));
+            return Optional.of(getNewGame(userId, gamePattern.getQuestId())).map(Dto.MAPPER::from);
         } else {
             return Optional.empty();
         }
@@ -48,7 +52,7 @@ public class GameService {
         return newGame;
     }
 
-    public Optional<Game> processOneStep(Long gameId, Long answerId) {
+    public Optional<GameTo> processOneStep(Long gameId, Long answerId) {
         Game game = gameRepository.get(gameId);
         if (game.getGameState() == GameState.PLAY) {
             Answer answer = answerRepository.get(answerId);
@@ -62,7 +66,7 @@ public class GameService {
         } else {
             game = getNewGame(game.getUserId(), game.getQuestId());
         }
-        return Optional.ofNullable(game);
+        return Optional.ofNullable(game).map(Dto.MAPPER::from);
     }
 
 

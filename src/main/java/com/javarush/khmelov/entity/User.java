@@ -1,9 +1,8 @@
 package com.javarush.khmelov.entity;
 
+import com.javarush.khmelov.dto.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import java.util.ArrayList;
 import java.util.Collection;

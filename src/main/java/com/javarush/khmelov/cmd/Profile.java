@@ -1,6 +1,6 @@
 package com.javarush.khmelov.cmd;
 
-import com.javarush.khmelov.entity.User;
+import com.javarush.khmelov.dto.UserTo;
 import com.javarush.khmelov.util.Go;
 import com.javarush.khmelov.util.Key;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,8 +13,8 @@ public class Profile implements Command {
     public String doPost(HttpServletRequest request) {
         if (request.getParameter(Key.LOGOUT) == null) {
             HttpSession session = request.getSession();
-            User user = (User) session.getAttribute("user");
-            return Go.EDIT_USER + "?id=" + user.getId();
+            UserTo userTo = (UserTo) session.getAttribute("user");
+            return Go.EDIT_USER + "?id=" + userTo.getId();
         } else {
             return Go.LOGOUT;
         }

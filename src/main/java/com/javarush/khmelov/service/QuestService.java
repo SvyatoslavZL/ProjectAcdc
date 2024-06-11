@@ -1,7 +1,10 @@
 package com.javarush.khmelov.service;
 
+import com.javarush.khmelov.dto.GameState;
+import com.javarush.khmelov.dto.QuestTo;
 import com.javarush.khmelov.entity.*;
 import com.javarush.khmelov.exception.AppException;
+import com.javarush.khmelov.mapping.Dto;
 import com.javarush.khmelov.repository.*;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -34,8 +37,8 @@ public class QuestService {
         return questRepository.getAll();
     }
 
-    public Optional<Quest> get(long id) {
-        return Optional.ofNullable(questRepository.get(id));
+    public Optional<QuestTo> get(long id) {
+        return Optional.ofNullable(questRepository.get(id)).map(Dto.MAPPER::from);
     }
 
     public Optional<Quest> create(String name, String text, Long userId) {

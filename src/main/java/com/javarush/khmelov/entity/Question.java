@@ -1,5 +1,6 @@
 package com.javarush.khmelov.entity;
 
+import com.javarush.khmelov.dto.GameState;
 import lombok.*;
 import org.hibernate.Hibernate;
 

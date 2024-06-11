@@ -1,12 +1,11 @@
 package com.javarush.khmelov.entity;
 
+import com.javarush.khmelov.dto.GameState;
 import jakarta.persistence.Entity;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.OptimisticLock;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 

@@ -1,7 +1,7 @@
 package com.javarush.khmelov.repository;
 
 import com.javarush.khmelov.config.ApplicationProperties;
-import com.javarush.khmelov.entity.Role;
+import com.javarush.khmelov.dto.Role;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.config.SessionCreator;
 import org.junit.jupiter.api.AfterEach;

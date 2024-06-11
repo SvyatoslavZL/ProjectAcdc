@@ -1,6 +1,5 @@
 package com.javarush.khmelov.dto;
 
-import com.javarush.khmelov.entity.Role;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,6 +10,8 @@ public class UserTo {
     Long id;
 
     String login;
+
+    String password;
 
     String image;
 

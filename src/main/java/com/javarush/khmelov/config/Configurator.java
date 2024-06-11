@@ -1,9 +1,8 @@
 package com.javarush.khmelov.config;
 
-import com.javarush.khmelov.entity.User;
+import com.javarush.khmelov.dto.UserTo;
 import com.javarush.khmelov.service.QuestService;
 import com.javarush.khmelov.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -16,10 +15,9 @@ public class Configurator {
     public static final String FIRST_QUEST_NAME = "Играем в неопознанный летающий объект (обязательный квест)";
 
 
-
     public void fillStartData() {
         validatorDataBase.start();
-        User admin = userService.get(1L).orElseThrow();
+        UserTo admin = userService.get(1L).orElseThrow();
         boolean notFoundFirstQuest = questService
                 .getAll()
                 .stream()
@@ -31,7 +29,7 @@ public class Configurator {
         }
     }
 
-    private void addDemoQuests(User author) {
+    private void addDemoQuests(UserTo author) {
         Long authorId = author.getId();
         questService.create(
                 FIRST_QUEST_NAME,

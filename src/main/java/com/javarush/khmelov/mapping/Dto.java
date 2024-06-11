@@ -12,6 +12,7 @@ public interface Dto {
     Dto MAPPER = Mappers.getMapper(Dto.class);
 
     UserTo from(User user);
+    User from(UserTo userTo);
 
     @Mapping(target = "userId", source = "author.id")
     QuestTo from(Quest quest);
