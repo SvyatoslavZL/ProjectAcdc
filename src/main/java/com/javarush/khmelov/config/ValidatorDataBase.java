@@ -5,6 +5,8 @@ import liquibase.command.CommandScope;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.AllArgsConstructor;
 
+import static org.hibernate.cfg.JdbcSettings.*;
+
 @AllArgsConstructor
 public class ValidatorDataBase {
 
@@ -19,11 +21,11 @@ public class ValidatorDataBase {
             Scope.child(Scope.Attr.resourceAccessor, new ClassLoaderResourceAccessor(), () -> {
                 CommandScope update = new CommandScope("update");
                 update.addArgumentValue("changelogFile", DB_CHANGELOG_XML);
-                String url = properties.getProperty(ApplicationProperties.HIBERNATE_CONNECTION_URL);
+                String url = properties.getProperty(JAKARTA_JDBC_URL);
                 update.addArgumentValue("url", url);
-                String username = properties.getProperty(ApplicationProperties.HIBERNATE_CONNECTION_USERNAME);
+                String username = properties.getProperty(JAKARTA_JDBC_USER);
                 update.addArgumentValue("username", username);
-                String password = properties.getProperty(ApplicationProperties.HIBERNATE_CONNECTION_PASSWORD);
+                String password = properties.getProperty(JAKARTA_JDBC_PASSWORD);
                 update.addArgumentValue("password", password);
                 update.execute();
             });

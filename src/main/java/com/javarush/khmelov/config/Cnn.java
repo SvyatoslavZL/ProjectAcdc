@@ -4,13 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static org.hibernate.cfg.JdbcSettings.*;
+
 public class Cnn {
 
     final static ApplicationProperties applicationProperties = NanoSpring.find(ApplicationProperties.class);
 
     static {
         try {
-            Class.forName(applicationProperties.getProperty(ApplicationProperties.HIBERNATE_CONNECTION_DRIVER_CLASS));
+            Class.forName(applicationProperties.getProperty(JAKARTA_JDBC_DRIVER));
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -19,9 +21,9 @@ public class Cnn {
     public Connection get() {
         try {
             return DriverManager.getConnection(
-                    applicationProperties.getProperty(ApplicationProperties.HIBERNATE_CONNECTION_URL),
-                    applicationProperties.getProperty(ApplicationProperties.HIBERNATE_CONNECTION_USERNAME),
-                    applicationProperties.getProperty(ApplicationProperties.HIBERNATE_CONNECTION_PASSWORD)
+                    applicationProperties.getProperty(JAKARTA_JDBC_URL),
+                    applicationProperties.getProperty(JAKARTA_JDBC_USER),
+                    applicationProperties.getProperty(JAKARTA_JDBC_PASSWORD)
             );
         } catch (SQLException e) {
             throw new RuntimeException("failed Connection", e);
