@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
 import lombok.SneakyThrows;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -14,6 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class ImageService {
 
@@ -30,11 +32,18 @@ public class ImageService {
                     ).toString()))
             .getParent();
 
-    private final Path imagesFolder = WEB_INF.resolve(IMAGES_FOLDER);
+    private final Path imagesFolder;
 
     @SneakyThrows
     public ImageService() {
-        Files.createDirectories(imagesFolder);
+        Stream<Path> pathStream = Files.walk(WEB_INF);
+        try (pathStream) {
+            imagesFolder = pathStream
+                    .filter(p -> p.endsWith("WEB-INF" + File.separator + IMAGES_FOLDER))
+                    .findAny()
+                    .orElse(WEB_INF.resolve(IMAGES_FOLDER));
+            Files.createDirectories(imagesFolder);
+        }
     }
 
 
