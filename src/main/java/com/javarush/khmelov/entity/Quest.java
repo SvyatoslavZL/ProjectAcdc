@@ -19,40 +19,9 @@ import java.util.List;
 @Entity
 @BatchSize(size = 10)
 
-@FetchProfile(name = Quest.LAZY_QUESTIONS_AND_JOIN_AUTHOR_FETCH,
-        fetchOverrides = {
-                @FetchProfile.FetchOverride(
-                        entity = Quest.class,
-                        association = "questions",
-                        mode = FetchMode.SUBSELECT
-                ),
-                @FetchProfile.FetchOverride(
-                        entity = Quest.class,
-                        association = "author",
-                        mode = FetchMode.JOIN
-                ), @FetchProfile.FetchOverride(
-                entity = User.class,
-                association = "userInfo",
-                mode = FetchMode.JOIN
-        ),
-        })
 
-@NamedEntityGraph(
-        name = Quest.GRAPH_QUEST_QUESTIONS_AUTHOR_FETCH,
-        attributeNodes = {
-                @NamedAttributeNode("questions"),
-                @NamedAttributeNode(value = "author", subgraph = "authorUserInfo"),
-        },
-        subgraphs = {
-                @NamedSubgraph(name = "authorUserInfo",
-                        attributeNodes = @NamedAttributeNode("userInfo")
-                ),
-        }
-
-)
 public class Quest implements AbstractEntity {
-    public static final String LAZY_QUESTIONS_AND_JOIN_AUTHOR_FETCH = "lazy_questions_and_join_author_fetch_profile";
-    public static final String GRAPH_QUEST_QUESTIONS_AUTHOR_FETCH = "GRAPH_QUEST_QUESTIONS_AUTHOR_FETCH";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -76,13 +45,5 @@ public class Quest implements AbstractEntity {
     @ToString.Exclude
     private final List<Question> questions = new ArrayList<>();
 
-
-    @ManyToMany
-    @JoinTable(name = "game",
-            joinColumns = @JoinColumn(name = "quest_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id")
-    )
-    @ToString.Exclude
-    private final Collection<User> players = new ArrayList<>();
 
 }

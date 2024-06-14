@@ -2,6 +2,7 @@ package com.javarush.khmelov.cmd;
 
 import com.javarush.khmelov.BaseIT;
 import com.javarush.khmelov.config.NanoSpring;
+import com.javarush.khmelov.dto.UserTo;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.util.Go;
 import com.javarush.khmelov.util.Key;
@@ -20,7 +21,7 @@ class LoginIT extends BaseIT {
         when(request.getParameter(Key.PASSWORD)).thenReturn("admin");
 
         assertEquals(Go.PROFILE, login.doPost(request));
-        verify(session).setAttribute(eq(Key.USER), any(User.class));
+        verify(session).setAttribute(eq(Key.USER), any(UserTo.class));
     }
 
     @Test

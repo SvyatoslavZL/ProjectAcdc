@@ -19,7 +19,6 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 @Entity
-@OptimisticLocking(type = OptimisticLockType.VERSION)
 public class Game implements AbstractEntity, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,9 +32,6 @@ public class Game implements AbstractEntity, Serializable {
 
     @Column(name = "current_question_id")
     private Long currentQuestionId;
-
-    @Version
-    private Long version;
 
     @Column(name = "game_state")
     @Enumerated(EnumType.STRING)

@@ -1,6 +1,8 @@
 package com.javarush.khmelov.repository;
 
+import com.javarush.khmelov.ContainerIT;
 import com.javarush.khmelov.config.ApplicationProperties;
+import com.javarush.khmelov.config.NanoSpring;
 import com.javarush.khmelov.dto.Role;
 import com.javarush.khmelov.entity.User;
 import com.javarush.khmelov.config.SessionCreator;
@@ -9,14 +11,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class UserRepositoryTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+class UserRepositoryTest extends ContainerIT {
 
-    private final UserRepository userRepository = new UserRepository(new SessionCreator(new ApplicationProperties()));
+    private final SessionCreator sessionCreator = NanoSpring.find(SessionCreator.class);
+    private final UserRepository userRepository = new UserRepository(sessionCreator);
     private User admin;
 
     @BeforeEach
     void createAdmin() {
+        sessionCreator.beginTransactional();
         admin = User.builder()
                 .login("testAdmin")
                 .password("testPassword")
@@ -28,7 +33,7 @@ class UserRepositoryTest {
     @Test
     void get() {
         User user = userRepository.get(admin.getId());
-        Assertions.assertEquals(admin, user);
+        assertEquals(admin, user);
     }
 
 
@@ -36,7 +41,7 @@ class UserRepositoryTest {
     void find() {
         User pattern = User.builder().login("testAdmin").build();
         var userStream = userRepository.find(pattern);
-        Assertions.assertEquals(admin, userStream.findFirst().orElseThrow());
+        assertEquals(admin, userStream.findFirst().orElseThrow());
     }
 
     @Test
@@ -44,11 +49,12 @@ class UserRepositoryTest {
         admin.setLogin("newLogin");
         userRepository.update(admin);
         User user = userRepository.get(admin.getId());
-        Assertions.assertEquals(admin, user);
+        assertEquals(admin, user);
     }
 
     @AfterEach
     void tearDown() {
         userRepository.delete(admin);
+        sessionCreator.getSession().getTransaction().rollback();
     }
 }

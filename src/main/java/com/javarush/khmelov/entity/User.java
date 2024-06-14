@@ -16,7 +16,6 @@ import java.util.List;
 @Entity
 @ToString
 @Table(name = "users")
-@Cacheable
 public class User implements AbstractEntity {
 
     @Id
@@ -42,18 +41,6 @@ public class User implements AbstractEntity {
     public String getImage() { //TODO move to DTO
         return "user-" + id;
     }
-
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private UserInfo userInfo;
-
-
-    @ManyToMany
-    @JoinTable(name = "game",
-            joinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "quest_id", referencedColumnName = "id"))
-    @ToString.Exclude
-    private final Collection<Quest> questsInGame = new ArrayList<>();
 
 
 }

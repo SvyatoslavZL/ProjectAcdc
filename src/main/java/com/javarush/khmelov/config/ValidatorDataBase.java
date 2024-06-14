@@ -4,10 +4,12 @@ import liquibase.Scope;
 import liquibase.command.CommandScope;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import static org.hibernate.cfg.JdbcSettings.*;
 
 @AllArgsConstructor
+@Slf4j
 public class ValidatorDataBase {
 
     private final ApplicationProperties properties;
@@ -16,7 +18,7 @@ public class ValidatorDataBase {
 
 
     public void start() {
-        System.out.println("Running Liquibase...");
+        log.info("Running Liquibase...");
         try {
             Scope.child(Scope.Attr.resourceAccessor, new ClassLoaderResourceAccessor(), () -> {
                 CommandScope update = new CommandScope("update");

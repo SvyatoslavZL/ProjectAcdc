@@ -2,6 +2,8 @@ package com.javarush.khmelov.cmd;
 
 import com.javarush.khmelov.BaseIT;
 import com.javarush.khmelov.config.NanoSpring;
+import com.javarush.khmelov.dto.GameTo;
+import com.javarush.khmelov.dto.QuestionTo;
 import com.javarush.khmelov.entity.Game;
 import com.javarush.khmelov.entity.Question;
 import com.javarush.khmelov.util.Key;
@@ -21,8 +23,8 @@ class PlayGameIT extends BaseIT {
         String jspPage = playGame.doGet(request);
 
         assertEquals("WEB-INF/play-game.jsp", jspPage);
-        verify(request).setAttribute(eq(Key.GAME), any(Game.class));
-        verify(request).setAttribute(eq(Key.QUESTION), any(Question.class));
+        verify(request).setAttribute(eq(Key.GAME), any(GameTo.class));
+        verify(request).setAttribute(eq(Key.QUESTION), any(QuestionTo.class));
     }
 
 }
