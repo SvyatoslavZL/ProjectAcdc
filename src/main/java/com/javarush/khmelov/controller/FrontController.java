@@ -18,14 +18,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @MultipartConfig(fileSizeThreshold = 1 << 20)
-@WebServlet({
+@WebServlet(value = {
         Go.INDEX, Go.HOME,
         Go.SIGNUP, Go.LOGIN, Go.LOGOUT,
         Go.LIST_USER, Go.PROFILE, Go.EDIT_USER,
         Go.CREATE_QUEST, Go.QUEST,
         Go.PLAY_GAME,
         Go.STATISTICS
-})
+},loadOnStartup = 1)
 public class FrontController extends HttpServlet {
 
     private HttpResolver httpResolver;
