@@ -1,6 +1,5 @@
 package com.javarush.kovalinsky.filter;
 
-import com.javarush.kovalinsky.util.Err;
 import com.javarush.kovalinsky.util.Key;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,7 +20,7 @@ public class ErrorCleanerFilter extends HttpFilter {
         if (req.getMethod().equalsIgnoreCase(Key.GET)) {
             HttpSession session = req.getSession(false);
             if (session != null) {
-                session.removeAttribute(Err.ERROR_MESSAGE);
+                session.removeAttribute(Key.ERROR_MESSAGE);
             }
         }
     }

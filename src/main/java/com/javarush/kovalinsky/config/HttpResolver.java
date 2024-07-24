@@ -10,7 +10,7 @@ public class HttpResolver {
 
     private final Map<String, Command> commandMap = new HashMap<>();
 
-    private static String convertURIStyleToCamelCase(String input) {
+    private static String convertUriStyleToCamelCase(String input) {
         StringBuilder result = new StringBuilder();
         boolean capitalizeNext = true;
         for (char c : input.toCharArray()) {
@@ -31,10 +31,10 @@ public class HttpResolver {
     @SneakyThrows
     public Command resolve(String name) {
         if (commandMap.get(name) == null) {
-            String simpleName = convertURIStyleToCamelCase(name);
+            String simpleName = convertUriStyleToCamelCase(name);
             String className = "com.javarush.kovalinsky.cmd." + simpleName;
             var aClass = Class.forName(className);
-            Command command = (Command) Winter.find(aClass);
+            Command command = (Command) NanoSpring.find(aClass);
             commandMap.put(name, command);
         }
         return commandMap.get(name);

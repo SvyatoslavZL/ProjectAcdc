@@ -3,7 +3,6 @@ package com.javarush.kovalinsky.repository;
 import java.util.Collection;
 import java.util.stream.Stream;
 
-@SuppressWarnings("unused")
 public interface Repository<T> {
 
     Collection<T> getAll();

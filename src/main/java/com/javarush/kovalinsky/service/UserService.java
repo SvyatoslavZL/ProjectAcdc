@@ -1,43 +1,43 @@
 package com.javarush.kovalinsky.service;
 
+import com.javarush.kovalinsky.dto.UserTo;
 import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.mapping.Dto;
 import com.javarush.kovalinsky.repository.Repository;
-import com.javarush.kovalinsky.repository.UserRepository;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 
 import java.util.Collection;
 import java.util.Optional;
 
+@AllArgsConstructor
+@Transactional
 public class UserService {
 
     private final Repository<User> userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public void create(UserTo userTo) {
+        userRepository.create(Dto.MAPPER.from(userTo));
     }
 
-    public void create(User user) {
-        userRepository.create(user);
+    public void update(UserTo userTo) {
+        userRepository.update(Dto.MAPPER.from(userTo));
     }
 
-    public void update(User user) {
-        userRepository.update(user);
+    public Collection<UserTo> getAll() {
+        return userRepository.getAll().stream().map(Dto.MAPPER::from).toList();
     }
 
-    public Collection<User> getAll() {
-        return userRepository.getAll();
-    }
-
-    public Optional<User> get(long id) {
+    public Optional<UserTo> get(long id) {
         User userPattern = User.builder().id(id).build();
-        return userRepository.find(userPattern).findAny();
+        return userRepository.find(userPattern).map(Dto.MAPPER::from).findAny();
     }
 
-    public Optional<User> get(String login, String password) {
-        User userPattern = User
-                .builder()
+    public Optional<UserTo> get(String login, String password) {
+        User userPattern = User.builder()
                 .login(login)
                 .password(password)
                 .build();
-        return userRepository.find(userPattern).findAny();
+        return userRepository.find(userPattern).map(Dto.MAPPER::from).findAny();
     }
 }

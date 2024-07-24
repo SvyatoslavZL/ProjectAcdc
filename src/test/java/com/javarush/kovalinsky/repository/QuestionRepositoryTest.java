@@ -1,9 +1,13 @@
 package com.javarush.kovalinsky.repository;
 
+import com.javarush.kovalinsky.ContainerIT;
+import com.javarush.kovalinsky.config.NanoSpring;
 import com.javarush.kovalinsky.config.SessionCreator;
-import com.javarush.kovalinsky.entity.GameState;
+import com.javarush.kovalinsky.dto.GameState;
+import com.javarush.kovalinsky.dto.Role;
 import com.javarush.kovalinsky.entity.Quest;
 import com.javarush.kovalinsky.entity.Question;
+import com.javarush.kovalinsky.entity.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,20 +16,29 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class QuestionRepositoryTest {
+class QuestionRepositoryTest extends ContainerIT {
 
-    private final QuestRepository questRepository = new QuestRepository(new SessionCreator());
-    private final QuestionRepository questionRepository = new QuestionRepository(new SessionCreator());
+    private final SessionCreator sessionCreator = NanoSpring.find(SessionCreator.class);
+    private final QuestRepository questRepository = new QuestRepository(sessionCreator);
+    private final QuestionRepository questionRepository = new QuestionRepository(sessionCreator);
     private Quest testQuest;
     private Question testQuestion;
+    private User testUser;
 
     @BeforeEach
     void createQuestAndQuestion() {
+        sessionCreator.beginTransactional();
+        testUser = User.builder()
+                .id(1L)
+                .login("testLogin")
+                .password("testPassword")
+                .role(Role.ADMIN)
+                .build();
         testQuest = Quest.builder()
                 .name("testQuest")
                 .text("testText")
-                .authorId(1L)
                 .build();
+        testQuest.setAuthor(testUser);
         questRepository.create(testQuest);
         testQuestion = Question.builder()
                 .text("testQuestion")
@@ -61,5 +74,6 @@ class QuestionRepositoryTest {
     void tearDown() {
         questionRepository.delete(testQuestion);
         questRepository.delete(testQuest);
+        sessionCreator.endTransactional();
     }
 }

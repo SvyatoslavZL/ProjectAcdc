@@ -1,13 +1,15 @@
 package com.javarush.kovalinsky.cmd;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public interface Command {
 
-    private static String convertCamelCaseToURIStyle(String input) {
+    private static String convertCamelCaseToUriStyle(String input) {
         String snakeName = input.chars()
                 .mapToObj(s -> String.valueOf((char) s))
                 .flatMap(s -> s.matches("[A-Z]")
@@ -28,12 +30,12 @@ public interface Command {
         return "WEB-INF/%s.jsp".formatted(getPage());
     }
 
-    default String doPost(HttpServletRequest req) {
+    default String doPost(HttpServletRequest req) throws ServletException, IOException {
         return getPage();
     }
 
     default String getPage() {
         String simpleName = this.getClass().getSimpleName();
-        return convertCamelCaseToURIStyle(simpleName);
+        return convertCamelCaseToUriStyle(simpleName);
     }
 }

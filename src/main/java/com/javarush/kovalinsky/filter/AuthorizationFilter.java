@@ -1,7 +1,7 @@
 package com.javarush.kovalinsky.filter;
 
-import com.javarush.kovalinsky.entity.Role;
-import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.dto.Role;
+import com.javarush.kovalinsky.dto.UserTo;
 import com.javarush.kovalinsky.util.Err;
 import com.javarush.kovalinsky.util.Go;
 import com.javarush.kovalinsky.util.Key;
@@ -27,6 +27,7 @@ import java.util.Optional;
 
 })
 public class AuthorizationFilter extends HttpFilter {
+
     private final Map<Role, List<String>> uriMap = Map.of(
             Role.GUEST, List.of(
                     Go.HOME, Go.INDEX, Go.SIGNUP, Go.LOGIN
@@ -43,8 +44,8 @@ public class AuthorizationFilter extends HttpFilter {
     );
 
     @Override
-    protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        Optional<User> user = RequestHelper.getUser(req.getSession());
+    protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
+        Optional<UserTo> user = RequestHelper.getUser(req.getSession());
         Role role = user.isEmpty()
                 ? Role.GUEST
                 : user.get().getRole();
@@ -53,7 +54,7 @@ public class AuthorizationFilter extends HttpFilter {
             chain.doFilter(req, res);
         } else {
             RequestHelper.setError(req, Err.NO_PERMISSIONS_FOR_OPERATION + Key.ROLE + ": " + role);
-            res.sendRedirect(Go.HOME);
+            res.sendRedirect(Go.LOGIN);
         }
     }
 }

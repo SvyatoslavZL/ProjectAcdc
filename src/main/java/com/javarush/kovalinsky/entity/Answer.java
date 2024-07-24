@@ -2,15 +2,18 @@ package com.javarush.kovalinsky.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import java.util.Objects;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@ToString
+@Table(name = "answer")
 public class Answer implements Identifiable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +22,7 @@ public class Answer implements Identifiable {
     @Column(name = "question_id")
     private Long questionId;
 
+    @Column(name = "text")
     private String text;
 
     @Column(name = "next_question_id")
@@ -27,13 +31,13 @@ public class Answer implements Identifiable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Answer answer = (Answer) o;
-        return Objects.equals(id, answer.id);
+        return getId() != null && Objects.equals(getId(), answer.getId());
     }
 
     @Override
     public int hashCode() {
-        return 43;
+        return getClass().hashCode();
     }
 }

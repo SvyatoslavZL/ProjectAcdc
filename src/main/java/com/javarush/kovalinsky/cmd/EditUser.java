@@ -1,16 +1,17 @@
 package com.javarush.kovalinsky.cmd;
 
-import com.javarush.kovalinsky.entity.Role;
-import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.dto.Role;
+import com.javarush.kovalinsky.dto.UserTo;
 import com.javarush.kovalinsky.service.ImageService;
 import com.javarush.kovalinsky.service.UserService;
 import com.javarush.kovalinsky.util.Key;
 import com.javarush.kovalinsky.util.RequestHelper;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.io.IOException;
 import java.util.Optional;
 
-@SuppressWarnings("unused")
 public class EditUser implements Command {
 
     private final UserService userService;
@@ -26,9 +27,9 @@ public class EditUser implements Command {
         String stringId = req.getParameter(Key.ID);
         if (stringId != null) {
             long id = Long.parseLong(stringId);
-            Optional<User> optionalUser = userService.get(id);
+            Optional<UserTo> optionalUser = userService.get(id);
             if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
+                UserTo user = optionalUser.get();
                 req.setAttribute(Key.USER, user);
             }
         }
@@ -36,8 +37,8 @@ public class EditUser implements Command {
     }
 
     @Override
-    public String doPost(HttpServletRequest req) {
-        User user = User.builder()
+    public String doPost(HttpServletRequest req) throws ServletException, IOException {
+        UserTo user = UserTo.builder()
                 .login(req.getParameter(Key.LOGIN))
                 .password(req.getParameter(Key.PASSWORD))
                 .role(Role.valueOf(req.getParameter(Key.ROLE)))

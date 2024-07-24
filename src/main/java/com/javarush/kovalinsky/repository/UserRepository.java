@@ -2,7 +2,9 @@ package com.javarush.kovalinsky.repository;
 
 import com.javarush.kovalinsky.entity.User;
 import com.javarush.kovalinsky.config.SessionCreator;
+import jakarta.transaction.Transactional;
 
+@Transactional
 public class UserRepository extends BaseRepository<User> {
 
     public UserRepository(SessionCreator sessionCreator) {

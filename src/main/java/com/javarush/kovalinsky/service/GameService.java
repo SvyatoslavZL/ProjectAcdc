@@ -1,33 +1,37 @@
 package com.javarush.kovalinsky.service;
 
+import com.javarush.kovalinsky.dto.GameState;
+import com.javarush.kovalinsky.dto.GameTo;
 import com.javarush.kovalinsky.entity.*;
+import com.javarush.kovalinsky.mapping.Dto;
 import com.javarush.kovalinsky.repository.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 import java.util.Comparator;
 import java.util.Optional;
 
 @AllArgsConstructor
+@Transactional
 public class GameService {
 
-    private final UserRepository userRepository;
-    private final GameRepository gameRepository;
+    private final Repository<User> userRepository;
+    private final BaseRepository<Game> gameRepository;
     private final QuestRepository questRepository;
-    private final QuestionRepository questionRepository;
-    private final AnswerRepository answerRepository;
+    private final Repository<Question> questionRepository;
+    private final Repository<Answer> answerRepository;
 
-    public Optional<Game> getGame(Long questId, Long userId) {
-        Game gamePattern = Game.builder()
-                .questId(questId)
-                .userId(userId)
-                .build();
-        Optional<Game> currentGame = gameRepository
+    public Optional<GameTo> getGame(Long questId, Long userId) {
+        Game gamePattern = Game.builder().questId(questId).build();
+        Optional<GameTo> currentGame = gameRepository
                 .find(gamePattern)
-                .max(Comparator.comparingLong(Game::getId));
+                .map(Dto.MAPPER::from)
+                .max(Comparator.comparingLong(GameTo::getId));
+        gamePattern.setUserId(userId);
         if (currentGame.isPresent()) {
             return currentGame;
         } else if (gamePattern.getQuestId() != null) {
-            return Optional.of(getNewGame(userId, gamePattern.getQuestId()));
+            return Optional.of(getNewGame(userId, gamePattern.getQuestId())).map(Dto.MAPPER::from);
         } else {
             return Optional.empty();
         }
@@ -36,7 +40,7 @@ public class GameService {
     private Game getNewGame(Long userId, Long questId) {
         Quest quest = questRepository.get(questId);
         Long startQuestionId = quest.getStartQuestionId();
-        Question startQuestion = questionRepository.get(startQuestionId); //todo fix error startQueId - NullPointerEx
+        Question startQuestion = questionRepository.get(startQuestionId);
         Game newGame = Game.builder()
                 .questId(questId)
                 .currentQuestionId(startQuestionId)
@@ -48,7 +52,7 @@ public class GameService {
         return newGame;
     }
 
-    public Optional<Game> processOneStep(Long gameId, Long answerId) {
+    public Optional<GameTo> processOneStep(Long gameId, Long answerId) {
         Game game = gameRepository.get(gameId);
         if (game.getGameState() == GameState.PLAY) {
             Answer answer = answerRepository.get(answerId);
@@ -62,6 +66,6 @@ public class GameService {
         } else {
             game = getNewGame(game.getUserId(), game.getQuestId());
         }
-        return Optional.ofNullable(game);
+        return Optional.ofNullable(game).map(Dto.MAPPER::from);
     }
 }

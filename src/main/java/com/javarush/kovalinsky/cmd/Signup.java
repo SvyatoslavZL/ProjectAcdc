@@ -1,12 +1,15 @@
 package com.javarush.kovalinsky.cmd;
 
-import com.javarush.kovalinsky.entity.Role;
-import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.dto.Role;
+import com.javarush.kovalinsky.dto.UserTo;
 import com.javarush.kovalinsky.service.ImageService;
 import com.javarush.kovalinsky.service.UserService;
 import com.javarush.kovalinsky.util.Go;
 import com.javarush.kovalinsky.util.Key;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.io.IOException;
 
 @SuppressWarnings("unused")
 public class Signup implements Command {
@@ -20,9 +23,8 @@ public class Signup implements Command {
     }
 
     @Override
-    public String doPost(HttpServletRequest req) {
-        User user = User.builder()
-                .id(0L)
+    public String doPost(HttpServletRequest req) throws ServletException, IOException {
+        UserTo user = UserTo.builder()
                 .login(req.getParameter(Key.LOGIN))
                 .password(req.getParameter(Key.PASSWORD))
                 .role(Role.valueOf(req.getParameter(Key.ROLE)))

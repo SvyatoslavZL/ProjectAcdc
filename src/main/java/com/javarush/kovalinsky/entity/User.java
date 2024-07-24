@@ -1,62 +1,49 @@
 package com.javarush.kovalinsky.entity;
 
+import com.javarush.kovalinsky.dto.Role;
 import com.javarush.kovalinsky.util.Key;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Objects;
+import java.util.List;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "users")
 @ToString
+@Table(name = "users")
 public class User implements Identifiable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "login")
     private String login;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public String getImage() {
-        return Key.USER + "-" + id;
-    }
-
     @OneToMany(mappedBy = "author")
     @ToString.Exclude
-    private final Collection<Quest> quests = new ArrayList<>();
+    private List<Quest> quests;
 
     @OneToMany
-    @ToString.Exclude
     @JoinColumn(name = "users_id")
+    @ToString.Exclude
     private final Collection<Game> games = new ArrayList<>();
 
-    public void addQuest(Quest quest) {
-        quest.setAuthor(this);
-        quests.add(quest);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id != null && Objects.equals(id, user.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return 42;
+    public String getImage() { //TODO move to DTO
+        return Key.USER + "-" + id;
     }
 }
 

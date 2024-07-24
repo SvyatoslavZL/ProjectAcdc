@@ -1,6 +1,6 @@
 package com.javarush.kovalinsky.cmd;
 
-import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.dto.UserTo;
 import com.javarush.kovalinsky.service.UserService;
 import com.javarush.kovalinsky.util.Key;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ public class ListUser implements Command {
 
     @Override
     public String doGet(HttpServletRequest req) {
-        Collection<User> users = userService.getAll();
+        Collection<UserTo> users = userService.getAll();
         req.setAttribute(Key.USERS, users);
         return getJspPage();
     }

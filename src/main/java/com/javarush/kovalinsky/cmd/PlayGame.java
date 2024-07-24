@@ -1,8 +1,8 @@
 package com.javarush.kovalinsky.cmd;
 
-import com.javarush.kovalinsky.entity.Game;
-import com.javarush.kovalinsky.entity.Question;
-import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.dto.GameTo;
+import com.javarush.kovalinsky.dto.UserTo;
+import com.javarush.kovalinsky.dto.QuestionTo;
 import com.javarush.kovalinsky.service.GameService;
 import com.javarush.kovalinsky.service.QuestionService;
 import com.javarush.kovalinsky.util.Err;
@@ -13,24 +13,23 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;
 
-@SuppressWarnings("unused")
 public class PlayGame implements Command {
 
     private final GameService gameService;
     private final QuestionService questionService;
 
-    public PlayGame(GameService gameService, QuestionService questService) {
+    public PlayGame(GameService gameService, QuestionService questionService) {
         this.gameService = gameService;
-        this.questionService = questService;
+        this.questionService = questionService;
     }
 
     @Override
     public String doGet(HttpServletRequest req) {
         Long questId = Long.parseLong(req.getParameter(Key.QUEST_ID));
-        Optional<User> user = RequestHelper.getUser(req.getSession());
+        Optional<UserTo> user = RequestHelper.getUser(req.getSession());
         if (user.isPresent()) {
             Long userId = user.get().getId();
-            Optional<Game> game = gameService.getGame(questId, userId);
+            Optional<GameTo> game = gameService.getGame(questId, userId);
             if (game.isPresent()) {
                 showNextQuestion(req, game.get());
                 return getJspPage();
@@ -48,12 +47,12 @@ public class PlayGame implements Command {
     public String doPost(HttpServletRequest req) {
         Long gameId = RequestHelper.getId(req);
         Long answerId = RequestHelper.getId(req, Key.ANSWER);
-        Optional<Game> gameOptional = gameService.processOneStep(gameId, answerId);
+        Optional<GameTo> gameOptional = gameService.processOneStep(gameId, answerId);
         if (gameOptional.isPresent()) {
             if (answerId == 0 && req.getParameter(Key.NEW_GAME) == null) {
-                RequestHelper.setError(req, Err.NEED_TO_SELECT_ANSWER);
+                RequestHelper.setError(req, Err.NO_ANSWER_HAS_BEEN_SELECTED);
             }
-            Game game = gameOptional.get();
+            GameTo game = gameOptional.get();
             return "%s?questId=%d&id=%d".formatted(Go.PLAY_GAME, game.getQuestId(), game.getId());
         } else {
             RequestHelper.setError(req, Err.NO_SUCH_GAME);
@@ -61,9 +60,9 @@ public class PlayGame implements Command {
         }
     }
 
-    private void showNextQuestion(HttpServletRequest req, Game game) {
-        req.setAttribute(Key.GAME, game);
-        Optional<Question> question = questionService.get(game.getCurrentQuestionId());
+    private void showNextQuestion(HttpServletRequest req, GameTo gameTo) {
+        req.setAttribute(Key.GAME, gameTo);
+        Optional<QuestionTo> question = questionService.get(gameTo.getCurrentQuestionId());
         req.setAttribute(Key.QUESTION, question.orElseThrow());
     }
 }

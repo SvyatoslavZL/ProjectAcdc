@@ -1,6 +1,6 @@
 package com.javarush.kovalinsky.util;
 
-import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.dto.UserTo;
 import com.javarush.kovalinsky.exception.AppException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -37,14 +37,14 @@ public class RequestHelper {
                 : 0L;
     }
 
-    public static Optional<User> getUser(HttpSession session) {
+    public static Optional<UserTo> getUser(HttpSession session) {
         Object user = session.getAttribute(Key.USER);
         return user != null
-                ? Optional.of((User) user)
+                ? Optional.of((UserTo) user)
                 : Optional.empty();
     }
 
     public static void setError(HttpServletRequest req, String errorMessage) {
-        req.getSession().setAttribute(Err.ERROR_MESSAGE, errorMessage);
+        req.getSession().setAttribute(Key.ERROR_MESSAGE, errorMessage);
     }
 }

@@ -1,17 +1,22 @@
 package com.javarush.kovalinsky.entity;
 
+import com.javarush.kovalinsky.dto.GameState;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Hibernate;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Game implements Identifiable {
+@ToString
+@Table(name = "game")
+public class Game implements Identifiable, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,13 +37,13 @@ public class Game implements Identifiable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Game game = (Game) o;
-        return Objects.equals(id, game.id);
+        return getId() != null && Objects.equals(getId(), game.getId());
     }
 
     @Override
     public int hashCode() {
-        return 44;
+        return getClass().hashCode();
     }
 }

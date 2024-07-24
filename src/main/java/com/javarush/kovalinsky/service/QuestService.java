@@ -1,9 +1,14 @@
 package com.javarush.kovalinsky.service;
 
+import com.javarush.kovalinsky.dto.GameState;
+import com.javarush.kovalinsky.dto.QuestTo;
 import com.javarush.kovalinsky.entity.*;
 import com.javarush.kovalinsky.exception.AppException;
-import com.javarush.kovalinsky.repository.*;
+import com.javarush.kovalinsky.mapping.Dto;
+import com.javarush.kovalinsky.repository.Repository;
 import com.javarush.kovalinsky.util.Err;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 
 import java.util.Collection;
 import java.util.Map;
@@ -12,6 +17,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@AllArgsConstructor
+@Transactional
 public class QuestService {
 
     public static final String QUEST_SYMBOL = ":";
@@ -25,29 +32,21 @@ public class QuestService {
     private final Repository<Question> questionRepository;
     private final Repository<Answer> answerRepository;
 
-    public QuestService(UserRepository userRepository, QuestRepository questRepository,
-                        QuestionRepository questionRepository, AnswerRepository answerRepository) {
-        this.userRepository = userRepository;
-        this.questRepository = questRepository;
-        this.questionRepository = questionRepository;
-        this.answerRepository = answerRepository;
+    public Collection<QuestTo> getAll() {
+        return questRepository.getAll().stream().map(Dto.MAPPER::from).toList();
     }
 
-    public Collection<Quest> getAll() {
-        return questRepository.getAll();
+    public Optional<QuestTo> get(long id) {
+        return Optional.ofNullable(questRepository.get(id)).map(Dto.MAPPER::from);
     }
 
-    public Optional<Quest> get(long id) {
-        return Optional.ofNullable(questRepository.get(id));
-    }
-
-    public Optional<Quest> create(String name, String text, Long userId) {
+    public Optional<QuestTo> create(String name, String text, Long userId) {
         Map<Long, Question> map = fillDraftMap(text);
         if (map.isEmpty()) {
             return Optional.empty();
         }
         Quest quest = Quest.builder()
-                .authorId(userId)
+                .author(userRepository.get(userId))
                 .name(name)
                 .text(text)
                 .startQuestionId(0L)
@@ -70,7 +69,7 @@ public class QuestService {
         map.values().stream()
                 .flatMap(q -> q.getAnswers().stream())
                 .forEach(answerRepository::create);
-        return Optional.of(quest);
+        return Optional.of(quest).map(Dto.MAPPER::from);
     }
 
     private Long findStartQuestionLabel(String text) {
@@ -123,7 +122,7 @@ public class QuestService {
 
     private void updateLinksAndId(Map<Long, Question> map, Quest quest) {
         for (Question question : map.values()) {
-            question.setId(quest.getId());
+            question.setQuestId(quest.getId());
             quest.getQuestions().add(question);
             for (Answer answer : question.getAnswers()) {
                 answer.setQuestionId(question.getId());

@@ -1,6 +1,8 @@
 package com.javarush.kovalinsky.util;
 
-@SuppressWarnings("unused")
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class Key {
     public static final String GET = "GET";
     public static final String POST = "POST";
@@ -27,5 +29,6 @@ public class Key {
 
     public static final String NAME = "name";
     public static final String TEXT = "text";
+    public static final String ERROR_MESSAGE = "errorMessage";
 
 }

@@ -1,6 +1,6 @@
 package com.javarush.kovalinsky.cmd;
 
-import com.javarush.kovalinsky.entity.User;
+import com.javarush.kovalinsky.dto.UserTo;
 import com.javarush.kovalinsky.util.Go;
 import com.javarush.kovalinsky.util.Key;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,8 +13,8 @@ public class Profile implements Command {
     public String doPost(HttpServletRequest req) {
         if (req.getParameter(Key.LOGOUT) == null) {
             HttpSession session = req.getSession();
-            User user = (User) session.getAttribute(Key.USER);
-            return Go.EDIT_USER + "?id=" + user.getId();
+            UserTo userTo = (UserTo) session.getAttribute(Key.USER);
+            return Go.EDIT_USER + "?id=" + userTo.getId();
         } else {
             return Go.LOGOUT;
         }

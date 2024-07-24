@@ -1,10 +1,11 @@
 package com.javarush.kovalinsky.util;
 
-@SuppressWarnings("unused")
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class Go {
     public static final String INDEX = "";
     public static final String HOME = "/home";
-
 
     public static final String SIGNUP = "/signup";
     public static final String LOGIN = "/login";
